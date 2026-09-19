@@ -1,0 +1,36 @@
+GI CULTURA V2 - ETAPA 10: DEPENDENCIAS Y ESPACIOS EDITABLES
+
+ANTES DE EMPEZAR
+1. Detener npm run dev (Ctrl+C en la terminal).
+2. Hacer una copia de seguridad de la carpeta actual del proyecto.
+
+ACTUALIZAR EL CODIGO
+- Si usas el ZIP completo, copiá su contenido sobre la carpeta del proyecto donde está package.json.
+- Conservá tu archivo .env.local actual. El ZIP entregado no lo incluye.
+- No hace falta copiar node_modules ni .next.
+
+ACTUALIZAR SUPABASE
+1. Abrir Supabase > SQL Editor.
+2. Crear una consulta nueva.
+3. Copiar y ejecutar TODO el archivo:
+   supabase/etapa-10-dependencias-espacios.sql
+4. Debe finalizar sin errores.
+
+PROBAR
+1. En la terminal del proyecto ejecutar:
+   npm run dev
+2. Abrir la app.
+3. Ir a "Dependencias y espacios".
+4. Probar:
+   - crear una dependencia de prueba;
+   - editar nombre y descripción;
+   - agregar un espacio;
+   - editar el espacio;
+   - eliminar el espacio si no tiene registros asociados;
+   - eliminar la dependencia si ya no tiene información asociada.
+5. Verificar que la nueva estructura aparezca en Registrar y en la búsqueda global.
+
+SEGURIDAD / INTEGRIDAD
+- Solo Coordinación puede modificar dependencias y espacios.
+- Una dependencia con espacios, registros o usuarios asociados no se puede eliminar.
+- Un espacio usado por registros tampoco se puede eliminar, para preservar el historial.

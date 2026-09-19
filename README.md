@@ -18,6 +18,6 @@ Abrir `http://localhost:3000`.
 3. Copiar `.env.example` como `.env.local`.
 4. Completar la URL y la clave publicable del proyecto.
 
-Si el proyecto ya está funcionando por etapas, ejecutar también los archivos SQL de cada etapa en orden. Las etapas actuales incorporan agenda y eventos mediante `supabase/etapa-8-agenda-eventos.sql`, y Bitácora mediante `supabase/etapa-9-bitacora-registros.sql`.
+Si el proyecto ya está funcionando por etapas, ejecutar también los archivos SQL de cada etapa en orden. Las etapas actuales incorporan agenda y eventos mediante `supabase/etapa-8-agenda-eventos.sql`, Bitácora mediante `supabase/etapa-9-bitacora-registros.sql`, y dependencias/espacios editables mediante `supabase/etapa-10-dependencias-espacios.sql`.
 
 No usar una clave secreta ni `service_role` en variables `NEXT_PUBLIC_*`.

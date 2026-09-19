@@ -58,7 +58,7 @@ export async function registrarEntrada(
   }
 
   if (!areaId || title.length < 3 || details.length < 3) {
-    return { ok: false, mensaje: "Completá el área, el título y el detalle." };
+    return { ok: false, mensaje: "Completá la dependencia, el título y el detalle." };
   }
 
   if (dueDate && !/^\d{4}-\d{2}-\d{2}$/.test(dueDate)) {
@@ -91,7 +91,7 @@ export async function registrarEntrada(
     .maybeSingle();
 
   if (!area) {
-    return { ok: false, mensaje: "El área seleccionada no está disponible." };
+    return { ok: false, mensaje: "La dependencia seleccionada no está disponible." };
   }
 
   if (spaceId) {
@@ -104,7 +104,7 @@ export async function registrarEntrada(
       .maybeSingle();
 
     if (!espacio) {
-      return { ok: false, mensaje: "El espacio no corresponde al área elegida." };
+      return { ok: false, mensaje: "El espacio no corresponde a la dependencia elegida." };
     }
   }
 

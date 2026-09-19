@@ -4,13 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Archive, Bot, Building2, CalendarDays, ClipboardList, FileBarChart, FileClock, Home, LogOut, MapPinned, Menu, PartyPopper, PlusCircle, Search, X } from "lucide-react";
-import { areas } from "@/lib/cultura-data";
 import { cerrarSesion } from "@/app/auth/actions";
 
 const navegacion = [
   { href: "/", etiqueta: "Inicio", icono: Home },
   { href: "/registrar", etiqueta: "Registrar", icono: PlusCircle },
-  { href: "/areas", etiqueta: "Áreas y espacios", icono: Building2 },
+  { href: "/areas", etiqueta: "Dependencias y espacios", icono: Building2 },
   { href: "/mapa", etiqueta: "Mapa cultural", icono: MapPinned },
   { href: "/agenda", etiqueta: "Agenda", icono: CalendarDays },
   { href: "/eventos", etiqueta: "Eventos", icono: PartyPopper },
@@ -20,15 +19,14 @@ const navegacion = [
   { href: "/informes", etiqueta: "Informes", icono: FileBarChart },
 ];
 
-export function AppShell({ children, nombreUsuario, rolUsuario }: { children: React.ReactNode; nombreUsuario: string; rolUsuario: string }) {
+type ItemBusqueda = { titulo: string; detalle: string; href: string };
+
+export function AppShell({ children, nombreUsuario, rolUsuario, busquedaItems }: { children: React.ReactNode; nombreUsuario: string; rolUsuario: string; busquedaItems: ItemBusqueda[] }) {
   const pathname = usePathname();
   const [abierto, setAbierto] = useState(false);
   const [busquedaAbierta, setBusquedaAbierta] = useState(false);
   const [consulta, setConsulta] = useState("");
-  const resultados = areas.flatMap(area => [
-    { titulo: area.nombre, detalle: "Área cultural", href: `/areas/${area.slug}` },
-    ...area.espacios.map(espacio => ({ titulo: espacio, detalle: area.nombre, href: `/areas/${area.slug}` })),
-  ]).filter(item => !consulta.trim() || `${item.titulo} ${item.detalle}`.toLocaleLowerCase("es").includes(consulta.trim().toLocaleLowerCase("es"))).slice(0, 8);
+  const resultados = busquedaItems.filter(item => !consulta.trim() || `${item.titulo} ${item.detalle}`.toLocaleLowerCase("es").includes(consulta.trim().toLocaleLowerCase("es"))).slice(0, 8);
   return <div className="app-shell">
     <header className="topbar">
       <button className="menu-button" onClick={() => setAbierto(true)} aria-label="Abrir menú"><Menu size={22}/></button>
@@ -39,7 +37,7 @@ export function AppShell({ children, nombreUsuario, rolUsuario }: { children: Re
         <form action={cerrarSesion}><button className="icon-button" type="submit" aria-label="Cerrar sesión" title="Cerrar sesión"><LogOut size={19}/></button></form>
       </div>
     </header>
-    {busquedaAbierta ? <div className="search-layer" role="dialog" aria-modal="true" aria-label="Búsqueda global"><button className="search-scrim" aria-label="Cerrar búsqueda" onClick={() => setBusquedaAbierta(false)}/><section className="search-dialog"><div className="search-box"><Search size={20}/><input autoFocus value={consulta} onChange={event => setConsulta(event.target.value)} placeholder="Buscar área o espacio cultural"/><button className="icon-button" aria-label="Cerrar búsqueda" onClick={() => setBusquedaAbierta(false)}><X size={20}/></button></div><div className="search-results">{resultados.map(item => <Link key={`${item.href}-${item.titulo}`} href={item.href} onClick={() => { setBusquedaAbierta(false); setConsulta(""); }}><span>{item.titulo}</span><small>{item.detalle}</small></Link>)}</div></section></div> : null}
+    {busquedaAbierta ? <div className="search-layer" role="dialog" aria-modal="true" aria-label="Búsqueda global"><button className="search-scrim" aria-label="Cerrar búsqueda" onClick={() => setBusquedaAbierta(false)}/><section className="search-dialog"><div className="search-box"><Search size={20}/><input autoFocus value={consulta} onChange={event => setConsulta(event.target.value)} placeholder="Buscar dependencia o espacio cultural"/><button className="icon-button" aria-label="Cerrar búsqueda" onClick={() => setBusquedaAbierta(false)}><X size={20}/></button></div><div className="search-results">{resultados.map(item => <Link key={`${item.href}-${item.titulo}`} href={item.href} onClick={() => { setBusquedaAbierta(false); setConsulta(""); }}><span>{item.titulo}</span><small>{item.detalle}</small></Link>)}</div></section></div> : null}
     {abierto && <button className="scrim" aria-label="Cerrar menú" onClick={() => setAbierto(false)}/>} 
     <aside className={`sidebar ${abierto ? "is-open" : ""}`}>
       <div className="sidebar-head"><span>Navegación</span><button className="icon-button mobile-only" onClick={() => setAbierto(false)} aria-label="Cerrar menú"><X size={20}/></button></div>

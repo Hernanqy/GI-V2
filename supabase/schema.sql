@@ -73,7 +73,7 @@ create table if not exists public.entries (
   title text not null check (char_length(trim(title)) >= 3),
   details text,
   area_id uuid not null references public.areas(id) on delete restrict,
-  space_id uuid references public.spaces(id) on delete set null,
+  space_id uuid references public.spaces(id) on delete restrict,
   status public.entry_status not null default 'pendiente',
   priority public.priority_level not null default 'normal',
   visibility public.visibility_level not null default 'area',

@@ -28,12 +28,23 @@ const visualPredeterminado: AreaVisual = {
   color: "green",
 };
 
+export type EspacioCultural = {
+  id: string;
+  nombre: string;
+  tipo: string;
+  localidad: string;
+  direccion: string;
+  latitud: number | null;
+  longitud: number | null;
+  ubicacionValidada: boolean;
+};
+
 export type AreaConEspacios = {
   id: string;
   slug: string;
   nombre: string;
   descripcion: string;
-  espacios: Array<{ id: string; nombre: string }>;
+  espacios: EspacioCultural[];
   icono: LucideIcon;
   color: string;
 };
@@ -48,13 +59,13 @@ export async function obtenerAreas(): Promise<AreaConEspacios[]> {
       .order("name"),
     supabase
       .from("spaces")
-      .select("id, area_id, name")
+      .select("id, area_id, name, space_type, locality, address, latitude, longitude, location_validated")
       .eq("active", true)
       .order("name"),
   ]);
 
   if (areasResult.error) {
-    throw new Error(`No se pudieron cargar las áreas: ${areasResult.error.message}`);
+    throw new Error(`No se pudieron cargar las dependencias: ${areasResult.error.message}`);
   }
 
   if (espaciosResult.error) {
@@ -71,7 +82,16 @@ export async function obtenerAreas(): Promise<AreaConEspacios[]> {
       descripcion: area.description ?? "Sin descripción institucional cargada.",
       espacios: espaciosResult.data
         .filter((espacio) => espacio.area_id === area.id)
-        .map((espacio) => ({ id: espacio.id, nombre: espacio.name })),
+        .map((espacio) => ({
+          id: espacio.id,
+          nombre: espacio.name,
+          tipo: espacio.space_type ?? "",
+          localidad: espacio.locality ?? "",
+          direccion: espacio.address ?? "",
+          latitud: espacio.latitude,
+          longitud: espacio.longitude,
+          ubicacionValidada: espacio.location_validated,
+        })),
       ...visual,
     };
   });
