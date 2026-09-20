@@ -1,0 +1,13 @@
+-- GI Cultura V2 · Parche espacios directos
+-- Supabase remoto ya fue actualizado.
+--
+-- Se creó un registro de espacio para:
+-- Casa del Bicentenario
+-- Centro Cultural Hinojo
+-- Centro Cultural San José
+-- Centro Cultural Sierras Bayas
+--
+-- Teatro Municipal ya contaba con su propio registro de espacio.
+--
+-- En la UI estas dependencias muestran directamente "Ficha del espacio"
+-- y NO el formulario "Agregar espacio".

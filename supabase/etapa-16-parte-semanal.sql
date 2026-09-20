@@ -1,0 +1,4 @@
+-- GI Cultura V2 · Etapa 16 · Parte semanal
+-- No requiere nuevas tablas.
+-- Consolida información existente de:
+-- areas, entries, spaces y staff_assignments.

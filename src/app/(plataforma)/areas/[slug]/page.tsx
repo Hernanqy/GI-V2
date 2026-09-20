@@ -4,6 +4,7 @@ import { ArrowLeft, CalendarDays, FileText, FolderKanban, Users } from "lucide-r
 import { AreaEditPanel } from "@/components/area-edit-panel";
 import { AreaStaffPanel } from "@/components/area-staff-panel";
 import { AreaExecutivePanel } from "@/components/area-executive-panel";
+import { DirectVenuePanel } from "@/components/direct-venue-panel";
 import { SpaceManager } from "@/components/space-manager";
 import { obtenerAreas } from "@/lib/areas-data";
 import { obtenerPerfilActual } from "@/lib/session-data";
@@ -33,7 +34,17 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
 
       <div className="detail-grid">
         <div className="area-detail-main">
-          <SpaceManager espacios={area.espacios} areaId={area.id} slug={area.slug} editable={editable} />
+          {["casa-del-bicentenario", "centro-cultural-hinojo", "centro-cultural-san-jose", "centro-cultural-sierras-bayas", "teatro-municipal"].includes(area.slug) ? (
+            <DirectVenuePanel
+              areaId={area.id}
+              slug={area.slug}
+              areaName={area.nombre}
+              espacio={area.espacios[0]}
+              editable={editable}
+            />
+          ) : (
+            <SpaceManager espacios={area.espacios} areaId={area.id} slug={area.slug} editable={editable} />
+          )}
           <AreaExecutivePanel areaId={area.id} areaName={area.nombre} spacesCount={area.espacios.length} />
           <AreaStaffPanel areaId={area.id} slug={area.slug} espacios={area.espacios} />
         </div>
