@@ -49,20 +49,6 @@ create table if not exists public.spaces (
   latitude numeric(9,6) check (latitude between -90 and 90),
   longitude numeric(9,6) check (longitude between -180 and 180),
   location_validated boolean not null default false,
-  responsible_name text,
-  opening_hours text,
-  public_contact text,
-  operational_status text not null default 'activo'
-    check (
-      operational_status in (
-        'activo',
-        'actividad_parcial',
-        'cerrado_temporalmente',
-        'sin_referente',
-        'a_confirmar'
-      )
-    ),
-  management_notes text,
   active boolean not null default true,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),

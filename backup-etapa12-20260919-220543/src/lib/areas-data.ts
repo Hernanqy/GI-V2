@@ -37,11 +37,6 @@ export type EspacioCultural = {
   latitud: number | null;
   longitud: number | null;
   ubicacionValidada: boolean;
-  responsable: string;
-  horarios: string;
-  contacto: string;
-  estadoOperativo: string;
-  notasGestion: string;
 };
 
 export type AreaConEspacios = {
@@ -64,7 +59,7 @@ export async function obtenerAreas(): Promise<AreaConEspacios[]> {
       .order("name"),
     supabase
       .from("spaces")
-      .select("id, area_id, name, space_type, locality, address, latitude, longitude, location_validated, responsible_name, opening_hours, public_contact, operational_status, management_notes")
+      .select("id, area_id, name, space_type, locality, address, latitude, longitude, location_validated")
       .eq("active", true)
       .order("name"),
   ]);
@@ -96,11 +91,6 @@ export async function obtenerAreas(): Promise<AreaConEspacios[]> {
           latitud: espacio.latitude,
           longitud: espacio.longitude,
           ubicacionValidada: espacio.location_validated,
-          responsable: espacio.responsible_name ?? "",
-          horarios: espacio.opening_hours ?? "",
-          contacto: espacio.public_contact ?? "",
-          estadoOperativo: espacio.operational_status ?? "a_confirmar",
-          notasGestion: espacio.management_notes ?? "",
         })),
       ...visual,
     };

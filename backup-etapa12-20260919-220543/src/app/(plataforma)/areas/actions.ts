@@ -19,19 +19,6 @@ function leerTexto(formData: FormData, campo: string) {
   return typeof valor === "string" ? valor.trim() : "";
 }
 
-function leerEstadoOperativo(formData: FormData) {
-  const valor = leerTexto(formData, "operational_status");
-  const permitidos = new Set([
-    "activo",
-    "actividad_parcial",
-    "cerrado_temporalmente",
-    "sin_referente",
-    "a_confirmar",
-  ]);
-
-  return permitidos.has(valor) ? valor : "a_confirmar";
-}
-
 function crearSlug(valor: string) {
   const base = valor
     .normalize("NFD")
@@ -216,11 +203,6 @@ export async function crearEspacio(
   const spaceType = leerTexto(formData, "space_type");
   const locality = leerTexto(formData, "locality");
   const address = leerTexto(formData, "address");
-  const responsibleName = leerTexto(formData, "responsible_name");
-  const openingHours = leerTexto(formData, "opening_hours");
-  const publicContact = leerTexto(formData, "public_contact");
-  const operationalStatus = leerEstadoOperativo(formData);
-  const managementNotes = leerTexto(formData, "management_notes");
 
   if (!areaId || name.length < 2) {
     return { ok: false, mensaje: "Ingresá un nombre válido para el espacio." };
@@ -241,11 +223,6 @@ export async function crearEspacio(
     space_type: spaceType || null,
     locality: locality || null,
     address: address || null,
-    responsible_name: responsibleName || null,
-    opening_hours: openingHours || null,
-    public_contact: publicContact || null,
-    operational_status: operationalStatus,
-    management_notes: managementNotes || null,
     active: true,
   });
 
@@ -272,11 +249,6 @@ export async function editarEspacio(
   const spaceType = leerTexto(formData, "space_type");
   const locality = leerTexto(formData, "locality");
   const address = leerTexto(formData, "address");
-  const responsibleName = leerTexto(formData, "responsible_name");
-  const openingHours = leerTexto(formData, "opening_hours");
-  const publicContact = leerTexto(formData, "public_contact");
-  const operationalStatus = leerEstadoOperativo(formData);
-  const managementNotes = leerTexto(formData, "management_notes");
 
   if (!id || !areaId || name.length < 2) {
     return { ok: false, mensaje: "Revisá los datos del espacio." };
@@ -289,11 +261,6 @@ export async function editarEspacio(
       space_type: spaceType || null,
       locality: locality || null,
       address: address || null,
-      responsible_name: responsibleName || null,
-      opening_hours: openingHours || null,
-      public_contact: publicContact || null,
-      operational_status: operationalStatus,
-      management_notes: managementNotes || null,
     })
     .eq("id", id)
     .eq("area_id", areaId)
