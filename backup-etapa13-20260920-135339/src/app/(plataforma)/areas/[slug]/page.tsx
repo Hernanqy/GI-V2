@@ -2,7 +2,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, CalendarDays, FileText, FolderKanban, Users } from "lucide-react";
 import { AreaEditPanel } from "@/components/area-edit-panel";
-import { AreaStaffPanel } from "@/components/area-staff-panel";
 import { SpaceManager } from "@/components/space-manager";
 import { obtenerAreas } from "@/lib/areas-data";
 import { obtenerPerfilActual } from "@/lib/session-data";
@@ -31,10 +30,7 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
       </section>
 
       <div className="detail-grid">
-        <div className="area-detail-main">
-          <SpaceManager espacios={area.espacios} areaId={area.id} slug={area.slug} editable={editable} />
-          <AreaStaffPanel areaId={area.id} slug={area.slug} espacios={area.espacios} />
-        </div>
+        <SpaceManager espacios={area.espacios} areaId={area.id} slug={area.slug} editable={editable} />
         <aside className="detail-aside">
           {editable ? <AreaEditPanel id={area.id} slug={area.slug} nombre={area.nombre} descripcion={area.descripcion} /> : null}
           <div className="panel">

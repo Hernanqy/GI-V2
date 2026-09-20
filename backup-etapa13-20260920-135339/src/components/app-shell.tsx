@@ -3,14 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Archive, Bot, Building2, CalendarDays, ClipboardList, FileBarChart, FileClock, Home, LogOut, MapPinned, Menu, PartyPopper, PlusCircle, Search, Users, X } from "lucide-react";
+import { Archive, Bot, Building2, CalendarDays, ClipboardList, FileBarChart, FileClock, Home, LogOut, MapPinned, Menu, PartyPopper, PlusCircle, Search, X } from "lucide-react";
 import { cerrarSesion } from "@/app/auth/actions";
 
 const navegacion = [
   { href: "/", etiqueta: "Inicio", icono: Home },
   { href: "/registrar", etiqueta: "Registrar", icono: PlusCircle },
   { href: "/areas", etiqueta: "Dependencias y espacios", icono: Building2 },
-  { href: "/personal", etiqueta: "Personal", icono: Users },
   { href: "/mapa", etiqueta: "Mapa cultural", icono: MapPinned },
   { href: "/agenda", etiqueta: "Agenda", icono: CalendarDays },
   { href: "/eventos", etiqueta: "Eventos", icono: PartyPopper },
