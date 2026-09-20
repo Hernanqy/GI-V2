@@ -12,22 +12,64 @@ export async function AreaStaffPanel({
   espacios: Array<{ id: string; nombre: string }>;
 }) {
   const personas = await obtenerPersonal(areaId);
-  const centrales = personas.filter((persona) => !persona.spaceId && persona.estado !== "baja");
+
+  function rolEnGrupo(personaId: string, spaceId: string | null) {
+    const persona = personas.find((item) => item.id === personaId);
+    if (!persona) return "";
+
+    const asignacion = persona.asignaciones.find(
+      (item) =>
+        item.activa &&
+        item.areaId === areaId &&
+        item.spaceId === spaceId,
+    );
+
+    return asignacion?.rol || asignacion?.tareas || persona.rol || persona.tareas;
+  }
+
+  const centrales = personas.filter((persona) => {
+    if (persona.estado === "baja") return false;
+
+    return (
+      (persona.areaId === areaId && !persona.spaceId) ||
+      persona.asignaciones.some(
+        (asignacion) =>
+          asignacion.activa &&
+          asignacion.areaId === areaId &&
+          !asignacion.spaceId,
+      )
+    );
+  });
 
   const grupos = [
     {
       id: "central",
-      nombre: "Equipo central de la dependencia",
+      nombre: "Equipo de la dependencia",
       personas: centrales,
+      spaceId: null as string | null,
     },
     ...espacios.map((espacio) => ({
       id: espacio.id,
       nombre: espacio.nombre,
+      spaceId: espacio.id as string | null,
       personas: personas.filter(
-        (persona) => persona.spaceId === espacio.id && persona.estado !== "baja",
+        (persona) =>
+          persona.estado !== "baja" &&
+          (
+            persona.spaceId === espacio.id ||
+            persona.asignaciones.some(
+              (asignacion) => asignacion.activa && asignacion.spaceId === espacio.id,
+            )
+          ),
       ),
     })),
   ];
+
+  const totalUnico = new Set(
+    personas
+      .filter((persona) => persona.estado !== "baja")
+      .map((persona) => persona.id),
+  ).size;
 
   return (
     <section className="panel area-staff-panel">
@@ -36,9 +78,7 @@ export async function AreaStaffPanel({
           <span className="eyebrow">Equipo y responsables</span>
           <h2>Personal por espacio</h2>
         </div>
-        <span className="space-count">
-          {personas.filter((persona) => persona.estado !== "baja").length} personas
-        </span>
+        <span className="space-count">{totalUnico} personas</span>
       </div>
 
       <div className="area-staff-groups">
@@ -68,7 +108,7 @@ export async function AreaStaffPanel({
                     <span className="staff-mini-avatar"><UserRound size={15} /></span>
                     <span>
                       <strong>{persona.nombre}</strong>
-                      <small>{persona.rol || persona.tareas || "Función a completar"}</small>
+                      <small>{rolEnGrupo(persona.id, grupo.spaceId) || "Función a completar"}</small>
                     </span>
                     {persona.legajo ? <em>Legajo {persona.legajo}</em> : null}
                   </div>

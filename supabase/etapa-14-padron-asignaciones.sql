@@ -1,0 +1,16 @@
+-- GI Cultura V2 · Etapa 14
+-- La base remota ya fue preparada y el padrón 2026 ya fue importado.
+-- Estructura principal:
+--   public.staff
+--   public.staff_assignments
+--
+-- staff_assignments permite que una misma persona figure en más de una
+-- dependencia o espacio sin duplicar su ficha institucional.
+--
+-- La importación preserva los textos de área/espacio de la fuente en:
+--   source_area
+--   source_space
+--   source_expires_text
+--
+-- No se importaron domicilio, fecha de nacimiento ni teléfono de emergencia
+-- al módulo operativo general.

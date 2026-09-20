@@ -1,4 +1,4 @@
-import { ShieldCheck, Users } from "lucide-react";
+import { DatabaseZap, ShieldCheck, Users } from "lucide-react";
 import { StaffManager, type AreaPersonalOption } from "@/components/staff-manager";
 import { obtenerAreas } from "@/lib/areas-data";
 import { obtenerPersonal } from "@/lib/staff-data";
@@ -16,7 +16,9 @@ export default async function PersonalPage({
     obtenerPersonal(),
   ]);
 
-  const areasPermitidas = perfil?.rol === "coordinacion"
+  const esCoordinacion = perfil?.rol === "coordinacion";
+
+  const areasPermitidas = esCoordinacion
     ? areas
     : areas.filter((area) => area.id === perfil?.areaId);
 
@@ -30,15 +32,12 @@ export default async function PersonalPage({
     })),
   }));
 
-  const personasPermitidas = personas.filter((persona) =>
-    opciones.some((area) => area.id === persona.areaId),
-  );
-
-  const initialAreaId = opciones.some((area) => area.id === areaSolicitada)
-    ? areaSolicitada
-    : "";
-
-  const editable = Boolean(perfil);
+  const initialAreaId =
+    areaSolicitada === "central" && esCoordinacion
+      ? "central"
+      : opciones.some((area) => area.id === areaSolicitada)
+        ? areaSolicitada
+        : "";
 
   return (
     <div className="page-stack">
@@ -46,25 +45,41 @@ export default async function PersonalPage({
         <div>
           <span className="eyebrow">Organización institucional</span>
           <h1>Personal</h1>
-          <p>Personas vinculadas a cada dependencia y espacio, con legajo, rol, tareas y estado operativo.</p>
+          <p>
+            Padrón unificado con legajo, datos administrativos y todas las asignaciones
+            que una misma persona puede tener en Cultura.
+          </p>
         </div>
         <span className="heading-icon"><Users size={26} /></span>
       </section>
 
-      {perfil?.rol !== "coordinacion" ? (
+      <section className="notice stage14-notice">
+        <DatabaseZap size={20} />
+        <div>
+          <strong>Padrón 2026 incorporado</strong>
+          <span>
+            La estructura admite varias asignaciones por persona sin duplicar su ficha institucional.
+          </span>
+        </div>
+      </section>
+
+      {!esCoordinacion ? (
         <section className="notice neutral-notice">
           <ShieldCheck size={20} />
           <div>
             <strong>Vista de tu dependencia</strong>
-            <span>El acceso queda limitado al personal de la dependencia asociada a tu usuario.</span>
+            <span>
+              Se muestran las personas que tienen una asignación vinculada a tu dependencia.
+            </span>
           </div>
         </section>
       ) : null}
 
       <StaffManager
-        personas={personasPermitidas}
+        personas={personas}
         areas={opciones}
-        editable={editable}
+        editable={Boolean(perfil)}
+        canManageCentral={esCoordinacion}
         initialAreaId={initialAreaId}
       />
     </div>

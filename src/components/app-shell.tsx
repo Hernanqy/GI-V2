@@ -10,7 +10,7 @@ const navegacion = [
   { href: "/", etiqueta: "Inicio", icono: Home },
   { href: "/registrar", etiqueta: "Registrar", icono: PlusCircle },
   { href: "/areas", etiqueta: "Dependencias y espacios", icono: Building2 },
-  { href: "/personal", etiqueta: "Personal", icono: Users },
+  { href: "/personal?area=todas", etiqueta: "Personal", icono: Users },
   { href: "/mapa", etiqueta: "Mapa cultural", icono: MapPinned },
   { href: "/agenda", etiqueta: "Agenda", icono: CalendarDays },
   { href: "/eventos", etiqueta: "Eventos", icono: PartyPopper },
