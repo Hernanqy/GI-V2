@@ -1,0 +1,7 @@
+-- GI Cultura V2 · Etapa 17 · Base documental
+-- La migración remota ya fue aplicada en Supabase.
+--
+-- Tabla: public.documents
+-- Estados: vigente / pendiente_revision / historico / referencia_anual
+-- Alcance: general, dependencia o espacio.
+-- Los enlaces externos permiten apuntar a Drive u otros repositorios.
