@@ -1,10 +1,11 @@
-export function getSupabaseConfig() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const publishableKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+﻿export function getSupabaseConfig() {
+  const url =
+    process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    "https://mxlqovhgqaemythgodbz.supabase.co";
 
-  if (!url || !publishableKey) {
-    throw new Error("Falta configurar NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY.");
-  }
+  const publishableKey =
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+    "sb_publishable_swp5i-6iKaWAXG-sSZNjSg_gFmfjC1x";
 
   return { url, publishableKey };
 }
