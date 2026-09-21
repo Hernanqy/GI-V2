@@ -138,7 +138,21 @@ function MapaLeaflet({
 
       setTimeout(() => {
         instancia.invalidateSize();
-      }, 100);
+
+        if (
+          latitud !== null &&
+          longitud !== null
+        ) {
+          instancia.flyTo(
+            [latitud, longitud],
+            17,
+            {
+              animate: true,
+              duration: 0.6,
+            },
+          );
+        }
+      }, 150);
     }
 
     iniciar();
