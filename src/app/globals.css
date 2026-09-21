@@ -676,3 +676,130 @@
 .gi-pin-state.is-pending{
   background:#B7810A;
 }
+
+/* PIN GI DEFINITIVO */
+
+.gi-cultural-div-icon{
+  background:transparent!important;
+  border:0!important;
+}
+
+.gi-cultural-pin{
+  width:40px;
+  height:46px;
+
+  display:grid;
+  place-items:center;
+
+  position:relative;
+
+  border-radius:
+    20px 20px 20px 6px;
+
+  transform:rotate(-45deg);
+
+  border:3px solid white;
+
+  box-shadow:
+    0 4px 14px
+    rgba(0,0,0,.34);
+}
+
+.gi-cultural-pin > span{
+  width:29px;
+  height:29px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:50%;
+
+  background:white;
+
+  color:#173536;
+
+  font-size:12px;
+  font-weight:900;
+
+  transform:rotate(45deg);
+}
+
+
+/* PATRIMONIO */
+.gi-pin-patrimonio{
+  background:#8A5A44;
+}
+
+
+/* EDUCACION ARTISTICA */
+.gi-pin-educacion{
+  background:#7656A8;
+}
+
+
+/* POLO LA MAXIMA */
+.gi-pin-polo{
+  background:#3E7D52;
+}
+
+
+/* TEATRO */
+.gi-pin-teatro{
+  background:#B04444;
+}
+
+
+/* CENTROS CULTURALES */
+.gi-pin-centro{
+  background:#087A7D;
+}
+
+
+/* PIN SELECCIONADO */
+.gi-cultural-pin.is-selected{
+  width:50px;
+  height:56px;
+
+  border-width:4px;
+
+  box-shadow:
+    0 7px 20px
+    rgba(0,0,0,.45);
+}
+
+.gi-cultural-pin.is-selected > span{
+  width:35px;
+  height:35px;
+
+  font-size:15px;
+}
+
+
+/* ESTADO */
+.gi-pin-state{
+  position:absolute;
+
+  right:-6px;
+  top:-7px;
+
+  width:18px;
+  height:18px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:50%;
+
+  background:#24734f;
+  color:white;
+
+  border:2px solid white;
+
+  font-size:9px;
+
+  transform:rotate(45deg);
+}
+
+.gi-pin-state.is-pending{
+  background:#B7810A;
+}

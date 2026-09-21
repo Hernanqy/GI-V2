@@ -236,12 +236,18 @@ function MapaLeaflet({
             item.longitud !== null,
         )
         .forEach((item) => {
-          const punto = L.circleMarker(
+          const punto = L.marker(
             [item.latitud!, item.longitud!],
             {
-              radius: item.id === espacio.id ? 12 : 8,
-              weight: item.id === espacio.id ? 4 : 3,
-              fillOpacity: 0.92,
+              icon: iconoMapa(
+                L,
+                item,
+                item.id === espacio.id,
+              ),
+              zIndexOffset:
+                item.id === espacio.id
+                  ? 900
+                  : 300,
             },
           ).addTo(grupo);
 
@@ -277,14 +283,35 @@ function MapaLeaflet({
         latitud !== null &&
         longitud !== null
       ) {
-        marcador.current = L.circleMarker(
+        marcador.current = L.marker(
           [latitud, longitud],
           {
-            radius: 11,
-            weight: 4,
-            fillOpacity: 0.65,
+            icon: iconoMapa(
+              L,
+              {
+                ...espacio,
+                latitud,
+                longitud,
+              },
+              true,
+            ),
+            draggable: editable,
+            zIndexOffset: 1200,
           },
         ).addTo(mapa.current);
+
+        marcador.current.on(
+          "dragend",
+          (event: any) => {
+            const posicion =
+              event.target.getLatLng();
+
+            onCambiarRef.current(
+              posicion.lat,
+              posicion.lng,
+            );
+          },
+        );
 
         mapa.current.flyTo([latitud, longitud], 17, { animate: true, duration: 0.7 });
       } else {
