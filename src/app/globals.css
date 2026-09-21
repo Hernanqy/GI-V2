@@ -832,3 +832,185 @@
 .gi-delete-location-button:hover{
   background:#fff1f0!important;
 }
+
+/* ======================================================
+   GI CONTRASTE GENERAL
+   ====================================================== */
+
+:root{
+  --page-bg:#e8efed;
+  --card-border:#c5d3d0;
+}
+
+/* Fondo general más marcado */
+
+html,
+body{
+  background:var(--page-bg)!important;
+}
+
+.app-shell{
+  background:var(--page-bg);
+}
+
+.main-content{
+  background:transparent;
+}
+
+
+/* ======================================================
+   CUADROS Y CARDS
+   ====================================================== */
+
+.area-card,
+.panel,
+.detail-hero,
+.request-summary>div,
+.filter-panel,
+.register-form{
+  background:#ffffff;
+  border-color:var(--card-border)!important;
+
+  box-shadow:
+    0 2px 7px
+    rgba(21,43,46,.06);
+}
+
+
+/* Dependencias un poco más visibles */
+
+.area-card{
+  border-color:#c3d1ce!important;
+}
+
+.area-card:hover{
+  border-color:#8faeaa!important;
+
+  box-shadow:
+    0 10px 25px
+    rgba(21,43,46,.10);
+}
+
+
+/* Paneles generales */
+
+.panel{
+  border-color:#c5d3d0!important;
+}
+
+
+/* ======================================================
+   DEPENDENCIAS
+   Nueva dependencia queda visualmente secundaria
+   ====================================================== */
+
+.secondary-admin-section{
+  margin-top:12px;
+
+  padding-top:26px;
+
+  border-top:
+    1px solid #bfcfcb;
+}
+
+.secondary-admin-section
+> .section-heading{
+  margin-bottom:12px;
+}
+
+.secondary-admin-section
+.structure-create-panel{
+  background:#f6f9f8;
+
+  border:
+    1px dashed #afc2be!important;
+
+  box-shadow:none;
+}
+
+.secondary-admin-section
+.structure-create-panel
+.heading-icon{
+  background:#e8efed;
+}
+
+
+/* Estructura vigente con mayor presencia */
+
+.area-grid.large
+.area-card{
+  background:#fff;
+
+  box-shadow:
+    0 3px 10px
+    rgba(21,43,46,.065);
+}
+
+/* ======================================================
+   GI CONTRASTE GENERAL 2026
+   ====================================================== */
+
+:root{
+  --page-bg:#e7efed;
+  --card-border:#c3d2cf;
+}
+
+html,
+body{
+  background:var(--page-bg)!important;
+}
+
+.app-shell{
+  background:var(--page-bg)!important;
+}
+
+.main-content{
+  background:transparent!important;
+}
+
+.area-card,
+.panel,
+.detail-hero,
+.request-summary>div,
+.filter-panel,
+.register-form{
+  background:#ffffff!important;
+  border-color:var(--card-border)!important;
+  box-shadow:0 3px 10px rgba(21,43,46,.07);
+}
+
+.area-card{
+  border-color:#becfcb!important;
+}
+
+.area-card:hover{
+  border-color:#8aa9a5!important;
+  box-shadow:0 12px 28px rgba(21,43,46,.11);
+}
+
+.area-grid.large .area-card{
+  box-shadow:0 4px 12px rgba(21,43,46,.075);
+}
+
+
+/* NUEVA DEPENDENCIA COMO OPCIÓN SECUNDARIA */
+
+.secondary-admin-section{
+  margin-top:14px;
+  padding-top:26px;
+  border-top:1px solid #b9cbc7;
+}
+
+.secondary-admin-section > .section-heading{
+  margin-bottom:12px;
+}
+
+.secondary-admin-section .structure-create-panel{
+  background:#f6f9f8!important;
+  border:1px dashed #aebfbc!important;
+  box-shadow:none!important;
+}
+
+.secondary-admin-section .structure-create-panel .heading-icon{
+  background:#e6eeec!important;
+}
