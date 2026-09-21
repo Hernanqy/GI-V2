@@ -528,3 +528,18 @@
     min-height: 470px !important;
   }
 }
+
+/* MAPA UX FIX */
+
+.gi-location-warning{
+  padding:9px 10px;
+  border-radius:7px;
+  background:#eef6f5;
+  color:#486361;
+  font-size:10px;
+  line-height:1.4;
+}
+
+.gi-location-warning strong{
+  color:#004f53;
+}

@@ -247,7 +247,7 @@ function MapaLeaflet({
     return () => {
       cancelado = true;
     };
-  }, [latitud, longitud]);
+  }, [espacio.id, latitud, longitud]);
 
   useEffect(() => {
     return () => {
@@ -314,7 +314,11 @@ function EditorUbicacion({
     setLocalidad(espacio.localidad);
     setDireccion(espacio.direccion);
     setResultados([]);
-    setBusqueda("");
+    setBusqueda(
+      [espacio.nombre, espacio.localidad]
+        .filter(Boolean)
+        .join(", ")
+    );
   }, [espacio]);
 
   useEffect(() => {
@@ -324,18 +328,17 @@ function EditorUbicacion({
   }, [estado.ok, router]);
 
   async function buscar() {
-    const consulta =
-      busqueda.trim() ||
-      [
-        espacio.nombre,
-        direccion,
-        localidad,
-        "Olavarría",
-        "Buenos Aires",
-        "Argentina",
-      ]
-        .filter(Boolean)
-        .join(", ");
+    const consulta = [
+  espacio.nombre,
+  busqueda.trim(),
+  direccion,
+  localidad,
+  "Olavarría",
+  "Buenos Aires",
+  "Argentina",
+]
+  .filter(Boolean)
+  .join(", ");
 
     if (consulta.length < 3) return;
 
@@ -509,7 +512,7 @@ if (datos.length > 0) {
                         event.target.value,
                       )
                     }
-                    placeholder="Calle, número o nombre"
+                    placeholder="Dirección o referencia adicional"
                   />
                 </div>
               </label>
