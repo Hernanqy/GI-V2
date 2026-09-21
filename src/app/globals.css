@@ -1804,3 +1804,493 @@ body{
   }
 
 }
+
+/* =========================================================
+   PILOTO FICHA BICENTENARIO
+   Solo se aplica cuando detail-grid tiene pilot-wide-detail
+   ========================================================= */
+
+
+/* ---------------------------------------------------------
+   LA FICHA PRINCIPAL GANA TODO EL ANCHO
+   --------------------------------------------------------- */
+
+.detail-grid.pilot-wide-detail{
+  grid-template-columns:
+    minmax(0,1fr)!important;
+}
+
+
+/* ---------------------------------------------------------
+   PANEL DE INFORMACIÓN ACTUAL
+   --------------------------------------------------------- */
+
+.pilot-wide-detail
+.operational-overview{
+  padding:0!important;
+
+  gap:0!important;
+
+  overflow:hidden;
+
+  border:
+    1px solid #b9cbc7!important;
+
+  box-shadow:
+    0 5px 18px
+    rgba(20,45,47,.07)!important;
+}
+
+
+/* Título de la sección */
+
+.pilot-wide-detail
+.operational-overview-heading{
+  padding:
+    20px 24px 17px;
+
+  background:
+    #f4f8f7;
+
+  border-bottom:
+    1px solid #d4dfdc;
+}
+
+
+.pilot-wide-detail
+.operational-overview-heading h2{
+  font-size:23px;
+
+  margin:
+    4px 0 5px;
+}
+
+
+.pilot-wide-detail
+.operational-overview-heading p{
+  max-width:700px;
+
+  font-size:12px;
+}
+
+
+/* ---------------------------------------------------------
+   CARD DEL ESPACIO
+   --------------------------------------------------------- */
+
+.pilot-wide-detail
+.space-overview-grid{
+  display:block!important;
+}
+
+
+.pilot-wide-detail
+.space-overview-card{
+  padding:0!important;
+
+  border:0!important;
+
+  border-radius:0!important;
+
+  box-shadow:none!important;
+
+  gap:0!important;
+}
+
+
+/* Cabecera fuerte */
+
+.pilot-wide-detail
+.overview-card-header{
+  padding:
+    18px 24px;
+
+  grid-template-columns:
+    46px
+    minmax(0,1fr)
+    auto;
+
+  background:
+    #08777a;
+
+  border-bottom:0;
+
+  color:#ffffff;
+}
+
+
+.pilot-wide-detail
+.overview-card-header
+.overview-card-icon{
+  width:42px;
+
+  height:42px;
+
+  background:
+    rgba(255,255,255,.16);
+
+  color:white;
+
+  border:
+    1px solid
+    rgba(255,255,255,.28);
+}
+
+
+.pilot-wide-detail
+.overview-card-header
+> div
+> strong{
+  font-size:17px;
+
+  font-weight:800;
+
+  letter-spacing:
+    -.015em;
+}
+
+
+.pilot-wide-detail
+.overview-card-header
+> div
+> small{
+  margin-top:3px;
+
+  color:
+    rgba(255,255,255,.78);
+
+  font-size:10px;
+}
+
+
+.pilot-wide-detail
+.overview-card-header
+.overview-status{
+  background:
+    rgba(255,255,255,.92);
+
+  color:#805400;
+
+  padding:
+    6px 9px;
+}
+
+
+.pilot-wide-detail
+.overview-card-header
+.overview-status.is-active{
+  color:#236743;
+}
+
+
+/* ---------------------------------------------------------
+   DATOS:
+   Ya no parecen seis tarjetas iguales
+   --------------------------------------------------------- */
+
+.pilot-wide-detail
+.operational-data-grid{
+  display:grid!important;
+
+  grid-template-columns:
+    repeat(
+      12,
+      minmax(0,1fr)
+    )!important;
+
+  gap:0!important;
+
+  padding:0!important;
+
+  background:white;
+}
+
+
+.pilot-wide-detail
+.operational-data-item{
+  min-height:98px;
+
+  padding:
+    17px 18px;
+
+  background:white!important;
+
+  border-radius:0!important;
+
+  border-right:
+    1px solid #dce5e2;
+
+  border-bottom:
+    1px solid #dce5e2;
+}
+
+
+/* UBICACIÓN */
+
+.pilot-wide-detail
+.operational-data-item:nth-child(1){
+  grid-column:
+    span 7;
+}
+
+
+/* RESPONSABLE */
+
+.pilot-wide-detail
+.operational-data-item:nth-child(2){
+  grid-column:
+    span 5;
+
+  border-right:0;
+}
+
+
+/* HORARIOS */
+
+.pilot-wide-detail
+.operational-data-item:nth-child(3){
+  grid-column:
+    span 3;
+}
+
+
+/* CONTACTO */
+
+.pilot-wide-detail
+.operational-data-item:nth-child(4){
+  grid-column:
+    span 3;
+}
+
+
+/* VISITANTES */
+
+.pilot-wide-detail
+.operational-data-item:nth-child(5){
+  grid-column:
+    span 3;
+
+  background:
+    #edf6f4!important;
+}
+
+
+/* AGENDA */
+
+.pilot-wide-detail
+.operational-data-item:nth-child(6){
+  grid-column:
+    span 3;
+
+  background:
+    #edf6f4!important;
+
+  border-right:0;
+}
+
+
+/* Etiquetas */
+
+.pilot-wide-detail
+.operational-data-item small{
+  font-size:9px;
+
+  letter-spacing:
+    .04em;
+}
+
+
+/* Valores principales */
+
+.pilot-wide-detail
+.operational-data-item strong{
+  margin-top:7px;
+
+  font-size:13px;
+
+  line-height:1.35;
+}
+
+
+/* Métricas más visibles */
+
+.pilot-wide-detail
+.operational-data-item:nth-child(5)
+strong,
+
+.pilot-wide-detail
+.operational-data-item:nth-child(6)
+strong{
+  font-size:18px;
+
+  color:#075f62;
+}
+
+
+/* Iconos */
+
+.pilot-wide-detail
+.operational-data-item
+> svg{
+  width:20px;
+
+  height:20px;
+
+  color:#08777a;
+}
+
+
+/* ---------------------------------------------------------
+   LINKS
+   --------------------------------------------------------- */
+
+.pilot-wide-detail
+.overview-card-links{
+  padding:
+    12px 20px;
+
+  background:white;
+
+  justify-content:
+    flex-end;
+
+  border-bottom:
+    1px solid #dce5e2;
+}
+
+
+.pilot-wide-detail
+.overview-card-links a{
+  padding:
+    6px 9px;
+
+  border-radius:6px;
+
+  background:#edf5f4;
+
+  text-decoration:none;
+}
+
+
+/* ---------------------------------------------------------
+   NOTA DE ESTADÍSTICAS
+   --------------------------------------------------------- */
+
+.pilot-wide-detail
+.operational-metric-note{
+  margin:
+    12px 18px 16px;
+
+  background:
+    #f4f7f6;
+}
+
+
+/* =========================================================
+   ZONA DE EDICIÓN
+   ========================================================= */
+
+.pilot-wide-detail
+.area-editor-zone-heading{
+  margin-top:6px;
+
+  padding:
+    23px 3px 2px;
+
+  border-top:
+    2px solid #b8cbc7;
+}
+
+
+.pilot-wide-detail
+.area-editor-zone-heading h2{
+  font-size:21px;
+}
+
+
+/* ---------------------------------------------------------
+   ASIDE
+
+   Al eliminar "Datos de la dependencia",
+   Información conectada y la nota pasan debajo
+   y ya no quitan ancho a la ficha.
+   --------------------------------------------------------- */
+
+.pilot-wide-detail
+.detail-aside{
+  display:grid!important;
+
+  grid-template-columns:
+    minmax(0,1fr)
+    minmax(0,1fr);
+
+  gap:14px;
+
+  width:100%;
+}
+
+
+.pilot-wide-detail
+.detail-aside
+.panel,
+
+.pilot-wide-detail
+.detail-aside
+.data-note{
+  margin:0!important;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media(max-width:900px){
+
+  .pilot-wide-detail
+  .operational-data-grid{
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0,1fr)
+      )!important;
+  }
+
+
+  .pilot-wide-detail
+  .operational-data-item:nth-child(n){
+    grid-column:
+      span 1!important;
+
+    border-right:
+      1px solid #dce5e2;
+  }
+
+
+  .pilot-wide-detail
+  .detail-aside{
+    grid-template-columns:
+      1fr;
+  }
+
+}
+
+
+@media(max-width:600px){
+
+  .pilot-wide-detail
+  .operational-data-grid{
+    grid-template-columns:
+      1fr!important;
+  }
+
+
+  .pilot-wide-detail
+  .operational-data-item:nth-child(n){
+    grid-column:
+      1!important;
+
+    min-height:auto;
+  }
+
+}

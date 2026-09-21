@@ -20,6 +20,11 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
   const Icon = area.icono;
   const editable = perfil?.rol === "coordinacion";
 
+  // Piloto visual.
+  // Por ahora se aplica solamente a Casa del Bicentenario.
+  const esPilotoFicha =
+    area.slug === "casa-del-bicentenario";
+
   return (
     <div className="page-stack">
       <Link href="/areas" className="back-link"><ArrowLeft size={17} />Volver a dependencias</Link>
@@ -33,7 +38,13 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
         <span className="status structure-status">{area.espacios.length} {area.espacios.length === 1 ? "espacio" : "espacios"}</span>
       </section>
 
-      <div className="detail-grid">
+      <div
+        className={`detail-grid ${
+          esPilotoFicha
+            ? "pilot-wide-detail"
+            : ""
+        }`}
+      >
         <div className="area-detail-main">
 
           <AreaOperationalOverview
@@ -107,7 +118,14 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
           <AreaStaffPanel areaId={area.id} slug={area.slug} espacios={area.espacios} />
         </div>
         <aside className="detail-aside">
-          {editable ? <AreaEditPanel id={area.id} slug={area.slug} nombre={area.nombre} descripcion={area.descripcion} /> : null}
+          {editable && !esPilotoFicha ? (
+            <AreaEditPanel
+              id={area.id}
+              slug={area.slug}
+              nombre={area.nombre}
+              descripcion={area.descripcion}
+            />
+          ) : null}
           <div className="panel">
             <h2>Información conectada</h2>
             <div className="quick-list">
