@@ -4,6 +4,7 @@ import { ArrowLeft, CalendarDays, FileText, FolderKanban, Users } from "lucide-r
 import { AreaEditPanel } from "@/components/area-edit-panel";
 import { AreaStaffPanel } from "@/components/area-staff-panel";
 import { AreaExecutivePanel } from "@/components/area-executive-panel";
+import { AreaOperationalOverview } from "@/components/area-operational-overview";
 import { DirectVenuePanel } from "@/components/direct-venue-panel";
 import { SpaceManager } from "@/components/space-manager";
 import { obtenerAreas } from "@/lib/areas-data";
@@ -34,6 +35,63 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
 
       <div className="detail-grid">
         <div className="area-detail-main">
+
+          <AreaOperationalOverview
+            areaId={area.id}
+            areaSlug={area.slug}
+            areaName={area.nombre}
+            espacios={area.espacios}
+          />
+
+          <div
+            className="
+              area-editor-zone-heading
+            "
+          >
+
+            <div>
+
+              <span
+                className="eyebrow"
+              >
+
+                {
+                  editable
+                    ? "Edición de ficha"
+                    : "Ficha institucional"
+                }
+
+              </span>
+
+
+              <h2>
+
+                {
+                  editable
+
+                    ? "Actualizar datos institucionales"
+
+                    : "Información institucional"
+                }
+
+              </h2>
+
+
+              <p>
+
+                {
+                  editable
+
+                    ? "Los datos operativos se muestran arriba. Modificá aquí la información base del espacio."
+
+                    : "Información base registrada para este espacio."
+                }
+
+              </p>
+
+            </div>
+
+          </div>
           {["casa-del-bicentenario", "centro-cultural-hinojo", "centro-cultural-san-jose", "centro-cultural-sierras-bayas", "teatro-municipal"].includes(area.slug) ? (
             <DirectVenuePanel
               areaId={area.id}

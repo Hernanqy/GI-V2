@@ -24,11 +24,12 @@ type ItemBusqueda = { titulo: string; detalle: string; href: string };
 
 export function AppShell({ children, nombreUsuario, rolUsuario, busquedaItems }: { children: React.ReactNode; nombreUsuario: string; rolUsuario: string; busquedaItems: ItemBusqueda[] }) {
   const pathname = usePathname();
+  const esMapa = pathname === "/mapa" || pathname.startsWith("/mapa/");
   const [abierto, setAbierto] = useState(false);
   const [busquedaAbierta, setBusquedaAbierta] = useState(false);
   const [consulta, setConsulta] = useState("");
   const resultados = busquedaItems.filter(item => !consulta.trim() || `${item.titulo} ${item.detalle}`.toLocaleLowerCase("es").includes(consulta.trim().toLocaleLowerCase("es"))).slice(0, 8);
-  return <div className="app-shell">
+  return <div className={`app-shell ${esMapa ? "map-mode" : ""}`}>
     <header className="topbar">
       <button className="menu-button" onClick={() => setAbierto(true)} aria-label="Abrir menú"><Menu size={22}/></button>
       <Link href="/" className="brand" aria-label="Ir al inicio"><span className="brand-mark">GI</span><span><strong>Cultura · Olavarría</strong><small>Gestión institucional</small></span></Link>

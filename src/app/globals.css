@@ -1014,3 +1014,793 @@ body{
 .secondary-admin-section .structure-create-panel .heading-icon{
   background:#e6eeec!important;
 }
+
+/* =========================================================
+   MAPA MODO AMPLIO GI
+   El menú lateral se oculta solamente en /mapa
+   ========================================================= */
+
+@media (min-width: 801px) {
+
+  /* Recuperamos los 250px que normalmente usa el sidebar */
+
+  .app-shell.map-mode{
+    padding-left:0!important;
+  }
+
+
+  /* El mapa puede usar prácticamente todo el ancho */
+
+  .app-shell.map-mode .main-content{
+    max-width:none!important;
+    width:100%!important;
+    margin:0!important;
+    padding-left:24px!important;
+    padding-right:24px!important;
+  }
+
+
+  /* Sidebar escondido fuera de pantalla */
+
+  .app-shell.map-mode .sidebar{
+    transform:translateX(-105%);
+    transition:transform .22s ease;
+    box-shadow:8px 0 24px rgba(21,43,46,.12);
+  }
+
+
+  /* Cuando tocamos ☰ vuelve a aparecer */
+
+  .app-shell.map-mode .sidebar.is-open{
+    transform:translateX(0);
+    z-index:80;
+  }
+
+
+  /* En el mapa mostramos el botón de menú aunque sea escritorio */
+
+  .app-shell.map-mode .menu-button{
+    display:grid!important;
+    flex:0 0 auto;
+  }
+
+
+  /* Fondo oscuro cuando el menú temporal está abierto */
+
+  .app-shell.map-mode .scrim{
+    display:block!important;
+    position:fixed!important;
+    inset:72px 0 0 0!important;
+    z-index:70!important;
+    border:0!important;
+    background:rgba(12,31,33,.30)!important;
+    cursor:pointer;
+  }
+
+
+  /* El topbar queda por encima */
+
+  .app-shell.map-mode .topbar{
+    z-index:90;
+  }
+
+}
+
+
+/* En pantallas muy grandes aprovechamos todavía más el ancho */
+
+@media (min-width: 1450px){
+
+  .app-shell.map-mode .main-content{
+    padding-left:30px!important;
+    padding-right:30px!important;
+  }
+
+}
+
+/* ======================================================
+   DATOS OPERATIVOS POR ESPACIO
+   ====================================================== */
+
+.operational-overview{
+  padding:22px;
+  display:grid;
+  gap:18px;
+
+  border-color:#bfcfcb!important;
+}
+
+
+.operational-overview-heading{
+  display:flex;
+
+  justify-content:
+    space-between;
+
+  align-items:
+    flex-start;
+
+  gap:18px;
+}
+
+
+.operational-overview-heading h2{
+  margin:4px 0 5px;
+
+  font-size:21px;
+
+  letter-spacing:
+    -.025em;
+}
+
+
+.operational-overview-heading p{
+  margin:0;
+
+  color:
+    var(--muted);
+
+  font-size:12px;
+
+  line-height:1.5;
+}
+
+
+.operational-overview-count{
+  flex:0 0 auto;
+
+  padding:6px 9px;
+
+  border-radius:7px;
+
+  background:
+    var(--soft);
+
+  color:
+    var(--brand-dark);
+
+  font-size:10px;
+
+  font-weight:800;
+}
+
+
+/* ======================================================
+   ESPACIOS GENERALES
+   ====================================================== */
+
+.space-overview-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0,1fr)
+    );
+
+  gap:12px;
+}
+
+
+.space-overview-grid
+> article:only-child{
+  grid-column:1/-1;
+}
+
+
+.space-overview-card,
+.school-overview-card{
+  border:
+    1px solid #cbd8d5;
+
+  border-radius:11px;
+
+  background:#fff;
+
+  padding:16px;
+
+  display:grid;
+
+  gap:14px;
+
+  box-shadow:
+    0 2px 8px
+    rgba(21,43,46,.045);
+}
+
+
+.overview-card-header{
+  display:grid;
+
+  grid-template-columns:
+    40px
+    minmax(0,1fr)
+    auto;
+
+  gap:10px;
+
+  align-items:center;
+
+  padding-bottom:12px;
+
+  border-bottom:
+    1px solid var(--line);
+}
+
+
+.overview-card-header
+> div
+> strong,
+
+.overview-card-header
+> div
+> small{
+  display:block;
+}
+
+
+.overview-card-header
+> div
+> strong{
+  font-size:14px;
+}
+
+
+.overview-card-header
+> div
+> small{
+  margin-top:2px;
+
+  color:
+    var(--muted);
+
+  font-size:10px;
+}
+
+
+.overview-card-icon{
+  width:38px;
+
+  height:38px;
+
+  display:grid;
+
+  place-items:center;
+
+  border-radius:9px;
+
+  background:#e5f1f1;
+
+  color:
+    var(--brand);
+}
+
+
+.overview-card-icon.education{
+  background:#e7effb;
+
+  color:#2d63a6;
+}
+
+
+.overview-status{
+  padding:5px 7px;
+
+  border-radius:6px;
+
+  background:#fff1dd;
+
+  color:#895900;
+
+  font-size:9px;
+
+  font-weight:800;
+}
+
+
+.overview-status.is-active{
+  background:#e7f5ed;
+
+  color:#236743;
+}
+
+
+.operational-data-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      minmax(0,1fr)
+    );
+
+  gap:8px;
+}
+
+
+.operational-data-item{
+  min-height:78px;
+
+  padding:10px;
+
+  display:grid;
+
+  grid-template-columns:
+    26px minmax(0,1fr);
+
+  align-items:start;
+
+  gap:7px;
+
+  border-radius:8px;
+
+  background:#f4f8f7;
+}
+
+
+.operational-data-item
+> svg{
+  color:
+    var(--brand);
+
+  margin-top:2px;
+}
+
+
+.operational-data-item small,
+.operational-data-item strong,
+.operational-data-item em{
+  display:block;
+}
+
+
+.operational-data-item small{
+  color:
+    var(--muted);
+
+  font-size:9px;
+
+  font-weight:750;
+
+  text-transform:
+    uppercase;
+}
+
+
+.operational-data-item strong{
+  margin-top:4px;
+
+  font-size:11px;
+
+  line-height:1.35;
+
+  overflow-wrap:
+    anywhere;
+}
+
+
+.operational-data-item em{
+  margin-top:4px;
+
+  color:
+    var(--muted);
+
+  font-size:9px;
+
+  line-height:1.35;
+
+  font-style:normal;
+}
+
+
+.operational-data-item.metric{
+  background:#eef5f4;
+}
+
+
+.overview-card-links{
+  display:flex;
+
+  justify-content:
+    flex-end;
+
+  gap:12px;
+}
+
+
+.overview-card-links a{
+  color:
+    var(--brand);
+
+  font-size:10px;
+
+  font-weight:800;
+}
+
+
+/* ======================================================
+   ESCUELAS
+   ====================================================== */
+
+.school-overview-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0,1fr)
+    );
+
+  gap:12px;
+}
+
+
+.school-key-data{
+  display:grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0,1fr)
+    );
+
+  gap:8px;
+}
+
+
+.school-key-data
+> div{
+  padding:9px;
+
+  display:grid;
+
+  grid-template-columns:
+    25px minmax(0,1fr);
+
+  gap:7px;
+
+  background:#f5f8fb;
+
+  border-radius:8px;
+
+  align-items:start;
+}
+
+
+.school-key-data svg{
+  color:#2d63a6;
+
+  margin-top:2px;
+}
+
+
+.school-key-data small,
+.school-key-data strong,
+.school-key-data em{
+  display:block;
+}
+
+
+.school-key-data small{
+  color:
+    var(--muted);
+
+  font-size:9px;
+
+  text-transform:
+    uppercase;
+
+  font-weight:750;
+}
+
+
+.school-key-data strong{
+  margin-top:3px;
+
+  font-size:11px;
+
+  overflow-wrap:
+    anywhere;
+}
+
+
+.school-key-data em{
+  margin-top:3px;
+
+  color:
+    var(--muted);
+
+  font-size:9px;
+
+  line-height:1.35;
+
+  font-style:normal;
+}
+
+
+.school-venues{
+  border-top:
+    1px solid var(--line);
+
+  padding-top:10px;
+}
+
+
+.school-venues
+> summary{
+  list-style:none;
+
+  cursor:pointer;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:
+    space-between;
+
+  gap:10px;
+
+  color:#2d63a6;
+
+  font-size:11px;
+
+  font-weight:800;
+}
+
+
+.school-venues
+> summary
+::-webkit-details-marker{
+  display:none;
+}
+
+
+.school-venues
+> summary
+> span{
+  display:flex;
+
+  align-items:center;
+
+  gap:6px;
+}
+
+
+.school-venues
+> summary
+> strong{
+  min-width:25px;
+
+  height:25px;
+
+  display:grid;
+
+  place-items:center;
+
+  border-radius:6px;
+
+  background:#e7effb;
+
+  font-size:10px;
+}
+
+
+.school-venue-list{
+  display:grid;
+
+  margin-top:9px;
+
+  border-top:
+    1px solid #e4ebea;
+}
+
+
+.school-venue-row{
+  display:grid;
+
+  grid-template-columns:
+    30px minmax(0,1fr) 20px;
+
+  gap:8px;
+
+  align-items:start;
+
+  padding:9px 0;
+
+  border-bottom:
+    1px solid #e4ebea;
+}
+
+
+.school-venue-row:last-child{
+  border-bottom:0;
+}
+
+
+.school-venue-marker{
+  width:28px;
+
+  height:28px;
+
+  display:grid;
+
+  place-items:center;
+
+  border-radius:7px;
+
+  background:#e7effb;
+
+  color:#2d63a6;
+}
+
+
+.school-venue-row strong,
+.school-venue-row small,
+.school-venue-row em{
+  display:block;
+}
+
+
+.school-venue-row strong{
+  font-size:10px;
+}
+
+
+.school-venue-row small{
+  color:
+    var(--muted);
+
+  font-size:9px;
+
+  margin-top:2px;
+}
+
+
+.school-venue-row em{
+  display:flex;
+
+  gap:4px;
+
+  align-items:center;
+
+  margin-top:5px;
+
+  color:#425b5e;
+
+  font-size:9px;
+
+  font-style:normal;
+}
+
+
+.school-venue-valid{
+  color:#27704f;
+}
+
+
+.school-venue-pending{
+  color:#a77700;
+}
+
+
+.school-venue-empty{
+  display:flex;
+
+  gap:7px;
+
+  align-items:center;
+
+  padding:10px 0;
+
+  color:
+    var(--muted);
+
+  font-size:10px;
+}
+
+
+/* ======================================================
+   NOTA ESTADÍSTICAS
+   ====================================================== */
+
+.operational-metric-note{
+  display:flex;
+
+  align-items:
+    flex-start;
+
+  gap:7px;
+
+  padding:9px 10px;
+
+  border-radius:7px;
+
+  background:#f4f7f6;
+
+  color:
+    var(--muted);
+
+  font-size:10px;
+
+  line-height:1.4;
+}
+
+
+.operational-metric-note svg{
+  flex:0 0 auto;
+
+  color:#8b6b12;
+}
+
+
+/* ======================================================
+   SEPARACIÓN CON LA EDICIÓN
+   ====================================================== */
+
+.area-editor-zone-heading{
+  margin-top:4px;
+
+  padding:
+    20px 2px 0;
+
+  border-top:
+    1px solid #b9c9c6;
+}
+
+
+.area-editor-zone-heading h2{
+  margin:4px 0 5px;
+
+  font-size:19px;
+}
+
+
+.area-editor-zone-heading p{
+  margin:
+    0 0 12px;
+
+  color:
+    var(--muted);
+
+  font-size:11px;
+}
+
+
+/* ======================================================
+   RESPONSIVE
+   ====================================================== */
+
+@media(max-width:1180px){
+
+  .operational-data-grid{
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0,1fr)
+      );
+  }
+
+  .school-overview-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+
+@media(max-width:760px){
+
+  .space-overview-grid{
+    grid-template-columns:1fr;
+  }
+
+  .operational-data-grid,
+  .school-key-data{
+    grid-template-columns:1fr;
+  }
+
+  .operational-overview-heading{
+    flex-direction:column;
+  }
+
+}
