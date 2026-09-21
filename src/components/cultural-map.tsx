@@ -96,6 +96,7 @@ function MapaLeaflet({
   const capa = useRef<any>(null);
   const marcador = useRef<any>(null);
   const onCambiarRef = useRef(onCambiar);
+  const [mapReady, setMapReady] = useState(false);
 
   useEffect(() => {
     onCambiarRef.current = onCambiar;
@@ -135,6 +136,7 @@ function MapaLeaflet({
       });
 
       mapa.current = instancia;
+      setMapReady(true);
 
       setTimeout(() => {
         instancia.invalidateSize();
@@ -206,7 +208,7 @@ function MapaLeaflet({
     return () => {
       cancelado = true;
     };
-  }, [espacios, espacio.id]);
+  }, [espacios, espacio.id, mapReady]);
 
   useEffect(() => {
     let cancelado = false;
@@ -247,7 +249,7 @@ function MapaLeaflet({
     return () => {
       cancelado = true;
     };
-  }, [espacio.id, latitud, longitud]);
+  }, [espacio.id, latitud, longitud, mapReady]);
 
   useEffect(() => {
     return () => {
