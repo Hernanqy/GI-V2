@@ -21,9 +21,11 @@ import {
   MapPin,
   Save,
   Search,
+  Trash2,
 } from "lucide-react";
 
 import {
+  borrarUbicacion,
   guardarUbicacion,
   type MapState,
 } from "@/app/(plataforma)/mapa/actions";
@@ -360,6 +362,15 @@ function EditorUbicacion({
       inicial,
     );
 
+  const [
+    estadoBorrar,
+    actionBorrar,
+    borrando,
+  ] = useActionState(
+    borrarUbicacion,
+    inicial,
+  );
+
   const [latitud, setLatitud] =
     useState<number | null>(
       espacio.latitud,
@@ -403,6 +414,14 @@ function EditorUbicacion({
       router.refresh();
     }
   }, [estado.ok, router]);
+
+  useEffect(() => {
+    if (estadoBorrar.ok) {
+      setLatitud(null);
+      setLongitud(null);
+      router.refresh();
+    }
+  }, [estadoBorrar.ok, router]);
 
   async function buscar() {
     const consulta = [
@@ -786,6 +805,59 @@ if (datos.length > 0) {
                 </button>
               </div>
             </form>
+
+            {latitud !== null &&
+            longitud !== null ? (
+              <form
+                action={actionBorrar}
+                className="gi-delete-location"
+                onSubmit={(event) => {
+                  if (
+                    !window.confirm(
+                      `¿Borrar del mapa la ubicación de ${espacio.nombre}?`
+                    )
+                  ) {
+                    event.preventDefault();
+                  }
+                }}
+              >
+                <input
+                  type="hidden"
+                  name="id"
+                  value={espacio.id}
+                />
+
+                <input
+                  type="hidden"
+                  name="area_id"
+                  value={espacio.areaId}
+                />
+
+                {estadoBorrar.mensaje ? (
+                  <span
+                    className={
+                      estadoBorrar.ok
+                        ? "form-success"
+                        : "form-error"
+                    }
+                  >
+                    {estadoBorrar.mensaje}
+                  </span>
+                ) : null}
+
+                <button
+                  type="submit"
+                  className="button danger gi-delete-location-button"
+                  disabled={borrando}
+                >
+                  <Trash2 size={16} />
+
+                  {borrando
+                    ? "Borrando…"
+                    : "Borrar ubicación del mapa"}
+                </button>
+              </form>
+            ) : null}
           </>
         ) : null}
       </aside>

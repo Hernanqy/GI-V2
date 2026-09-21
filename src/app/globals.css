@@ -803,3 +803,32 @@
 .gi-pin-state.is-pending{
   background:#B7810A;
 }
+
+/* BOTON BORRAR PIN */
+
+.gi-delete-location{
+  display:grid;
+  gap:8px;
+
+  margin-top:4px;
+  padding-top:13px;
+
+  border-top:
+    1px solid var(--line);
+}
+
+.gi-delete-location-button{
+  width:100%;
+
+  justify-content:center;
+
+  background:#fff!important;
+
+  border-color:#e4aaa5!important;
+
+  color:#a33832!important;
+}
+
+.gi-delete-location-button:hover{
+  background:#fff1f0!important;
+}

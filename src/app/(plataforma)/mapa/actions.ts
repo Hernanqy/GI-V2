@@ -98,3 +98,86 @@ export async function guardarUbicacion(
       : "Ubicación guardada. Falta validarla.",
   };
 }
+export async function borrarUbicacion(
+  _estadoAnterior: MapState,
+  formData: FormData,
+): Promise<MapState> {
+  const id = texto(formData, "id");
+  const areaId = texto(formData, "area_id");
+
+  if (!id || !areaId) {
+    return {
+      ok: false,
+      mensaje: "No se pudo identificar el espacio.",
+    };
+  }
+
+  const supabase = await createClient();
+
+  const { data: identidad } =
+    await supabase.auth.getClaims();
+
+  const userId =
+    identidad?.claims?.sub;
+
+  if (!userId) {
+    return {
+      ok: false,
+      mensaje: "La sesión no es válida.",
+    };
+  }
+
+  const { data: perfil } =
+    await supabase
+      .from("profiles")
+      .select("role, area_id")
+      .eq("id", userId)
+      .maybeSingle();
+
+  const autorizado =
+    perfil?.role === "coordinacion" ||
+    (
+      perfil?.role === "responsable_area" &&
+      perfil.area_id === areaId
+    );
+
+  if (!autorizado) {
+    return {
+      ok: false,
+      mensaje:
+        "No tenés permisos para modificar este espacio.",
+    };
+  }
+
+  const db = supabase as any;
+
+  const { error } =
+    await db
+      .from("spaces")
+      .update({
+        latitude: null,
+        longitude: null,
+        location_validated: false,
+        updated_at:
+          new Date().toISOString(),
+      })
+      .eq("id", id)
+      .eq("area_id", areaId);
+
+  if (error) {
+    return {
+      ok: false,
+      mensaje:
+        "No se pudo borrar la ubicación.",
+    };
+  }
+
+  revalidatePath("/mapa");
+  revalidatePath("/areas", "layout");
+
+  return {
+    ok: true,
+    mensaje:
+      "Ubicación eliminada del mapa.",
+  };
+}
