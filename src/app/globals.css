@@ -2974,3 +2974,472 @@ small{
   }
 
 }
+
+/* =========================================================
+   ENTRADA RAPIDA GI
+   ========================================================= */
+
+.gi-entry-page{
+  min-height:100dvh;
+  padding:28px;
+  display:grid;
+  place-items:center;
+
+  background:
+    linear-gradient(
+      145deg,
+      #e3edeb 0%,
+      #f4f7f6 48%,
+      #dbe9e7 100%
+    );
+
+  color:var(--ink);
+}
+
+
+.gi-entry-shell{
+  width:min(1050px,100%);
+}
+
+
+.gi-entry-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  margin-bottom:56px;
+}
+
+
+.gi-entry-brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
+
+
+.gi-entry-brand>div{
+  display:grid;
+}
+
+
+.gi-entry-brand strong{
+  font-size:15px;
+}
+
+
+.gi-entry-brand small{
+  margin-top:2px;
+  color:var(--muted);
+  font-size:10px;
+}
+
+
+.gi-entry-user{
+  display:grid;
+  text-align:right;
+}
+
+
+.gi-entry-user small{
+  color:var(--muted);
+  font-size:9px;
+  text-transform:uppercase;
+  font-weight:800;
+}
+
+
+.gi-entry-user strong{
+  margin-top:2px;
+  font-size:12px;
+}
+
+
+.gi-entry-intro{
+  max-width:650px;
+  margin-bottom:24px;
+}
+
+
+.gi-entry-intro h1{
+  margin:6px 0 8px;
+  font-size:38px;
+  line-height:1.05;
+  letter-spacing:-.04em;
+}
+
+
+.gi-entry-intro p{
+  margin:0;
+  max-width:590px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.55;
+}
+
+
+.gi-entry-options{
+  display:grid;
+  grid-template-columns:
+    1.08fr .92fr;
+  gap:18px;
+}
+
+
+.gi-entry-card{
+  min-height:330px;
+  padding:24px;
+
+  display:flex;
+  flex-direction:column;
+
+  border-radius:18px;
+
+  text-decoration:none;
+
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease;
+}
+
+
+.gi-entry-card:hover{
+  transform:translateY(-3px);
+}
+
+
+.gi-entry-assistant{
+  background:#086f73;
+  color:white;
+
+  box-shadow:
+    0 16px 40px
+    rgba(6,77,80,.17);
+}
+
+
+.gi-entry-platform{
+  background:#ffffff;
+  color:var(--ink);
+
+  border:
+    1px solid #c4d3d0;
+
+  box-shadow:
+    0 8px 25px
+    rgba(21,43,46,.07);
+}
+
+
+.gi-entry-card-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+}
+
+
+.gi-entry-main-icon{
+  width:58px;
+  height:58px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:14px;
+}
+
+
+.gi-entry-assistant
+.gi-entry-main-icon{
+  background:
+    rgba(255,255,255,.14);
+
+  border:
+    1px solid
+    rgba(255,255,255,.18);
+}
+
+
+.gi-entry-platform
+.gi-entry-main-icon{
+  background:#e5f1ef;
+  color:#08777a;
+}
+
+
+.gi-entry-badge{
+  display:flex;
+  align-items:center;
+  gap:5px;
+
+  padding:6px 8px;
+
+  border-radius:20px;
+
+  background:
+    rgba(255,255,255,.15);
+
+  font-size:9px;
+  font-weight:800;
+}
+
+
+.gi-entry-badge.neutral{
+  background:#edf4f2;
+  color:#315b5c;
+}
+
+
+.gi-entry-card-content{
+  margin-top:36px;
+}
+
+
+.gi-entry-assistant
+.eyebrow{
+  color:
+    rgba(255,255,255,.72);
+}
+
+
+.gi-entry-card-content h2{
+  margin:5px 0 9px;
+  font-size:27px;
+  letter-spacing:-.035em;
+}
+
+
+.gi-entry-card-content p{
+  margin:0;
+  max-width:500px;
+  font-size:12px;
+  line-height:1.6;
+}
+
+
+.gi-entry-assistant
+.gi-entry-card-content p{
+  color:
+    rgba(255,255,255,.78);
+}
+
+
+.gi-entry-platform
+.gi-entry-card-content p{
+  color:var(--muted);
+}
+
+
+.gi-entry-features{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:20px;
+}
+
+
+.gi-entry-features span{
+  display:flex;
+  align-items:center;
+  gap:5px;
+
+  padding:6px 8px;
+
+  border-radius:7px;
+
+  background:#f0f5f4;
+
+  color:#365556;
+
+  font-size:9px;
+  font-weight:800;
+}
+
+
+.gi-entry-card-action{
+  margin-top:auto;
+  padding-top:24px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  font-size:12px;
+  font-weight:850;
+}
+
+
+.gi-entry-assistant
+.gi-entry-card-action{
+  border-top:
+    1px solid
+    rgba(255,255,255,.18);
+}
+
+
+.gi-entry-platform
+.gi-entry-card-action{
+  border-top:
+    1px solid #dce5e2;
+
+  color:#08777a;
+}
+
+
+.gi-entry-tip{
+  margin:
+    14px 3px 0;
+
+  color:#667b7c;
+
+  font-size:10px;
+}
+
+
+/* =========================================================
+   BOTON FLOTANTE DEL ASISTENTE
+   ========================================================= */
+
+.assistant-floating-button{
+  position:fixed;
+
+  right:24px;
+  bottom:24px;
+
+  z-index:60;
+
+  min-height:50px;
+
+  padding:
+    0 17px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  gap:8px;
+
+  border-radius:28px;
+
+  background:#08777a;
+
+  color:#ffffff;
+
+  text-decoration:none;
+
+  font-size:11px;
+  font-weight:850;
+
+  box-shadow:
+    0 9px 26px
+    rgba(4,75,79,.25);
+
+  transition:
+    transform .16s ease,
+    box-shadow .16s ease;
+}
+
+
+.assistant-floating-button:hover{
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 12px 30px
+    rgba(4,75,79,.30);
+}
+
+
+/* =========================================================
+   MOVIL
+   ========================================================= */
+
+@media(max-width:700px){
+
+  .gi-entry-page{
+    padding:
+      18px 14px 22px;
+
+    place-items:start;
+  }
+
+
+  .gi-entry-header{
+    margin-bottom:40px;
+  }
+
+
+  .gi-entry-user{
+    display:none;
+  }
+
+
+  .gi-entry-intro h1{
+    font-size:32px;
+  }
+
+
+  .gi-entry-intro p{
+    font-size:12px;
+  }
+
+
+  .gi-entry-options{
+    grid-template-columns:1fr;
+  }
+
+
+  .gi-entry-card{
+    min-height:255px;
+    padding:20px;
+  }
+
+
+  .gi-entry-card-content{
+    margin-top:26px;
+  }
+
+
+  .gi-entry-card-content h2{
+    font-size:24px;
+  }
+
+
+  /*
+   * En teléfono el Asistente
+   * queda primero y con mayor
+   * presencia visual.
+   */
+
+  .gi-entry-assistant{
+    min-height:300px;
+  }
+
+
+  .assistant-floating-button{
+    right:16px;
+    bottom:18px;
+
+    width:58px;
+    height:58px;
+
+    min-height:58px;
+
+    padding:0;
+
+    border-radius:50%;
+  }
+
+
+  .assistant-floating-button span{
+    display:none;
+  }
+
+
+  .assistant-floating-button svg{
+    width:25px;
+    height:25px;
+  }
+
+}

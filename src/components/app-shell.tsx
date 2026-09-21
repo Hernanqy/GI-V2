@@ -58,5 +58,20 @@ export function AppShell({ children, nombreUsuario, rolUsuario, busquedaItems }:
     </Link>
     </aside>
     <main className="main-content">{children}</main>
+
+    {!pathname.startsWith("/asistente") ? (
+      <Link
+        href="/asistente"
+        className="assistant-floating-button"
+        aria-label="Abrir Asistente de Cultura"
+        title="Abrir Asistente de Cultura"
+      >
+        <Bot size={22} />
+
+        <span>
+          Asistente
+        </span>
+      </Link>
+    ) : null}
   </div>;
 }

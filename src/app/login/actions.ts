@@ -22,5 +22,5 @@ export async function iniciarSesion(formData: FormData) {
     redirect("/login?error=Usuario%20o%20contrase%C3%B1a%20incorrectos");
   }
 
-  redirect("/");
+  redirect("/entrada");
 }

@@ -11,7 +11,7 @@ export default async function LoginPage({
   const supabase = await createClient();
   const { data } = await supabase.auth.getClaims();
 
-  if (data?.claims?.sub) redirect("/");
+  if (data?.claims?.sub) redirect("/entrada");
 
   const { error } = await searchParams;
 
