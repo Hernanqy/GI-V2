@@ -76,6 +76,54 @@ const CENTRO: [number, number] = [
   -60.3225,
 ];
 
+function categoriaMapa(slug: string) {
+  if (slug === "patrimonio-cultural") {
+    return { clase: "patrimonio", simbolo: "P" };
+  }
+
+  if (slug === "educacion-artistica") {
+    return { clase: "educacion", simbolo: "E" };
+  }
+
+  if (slug === "polo-la-maxima") {
+    return { clase: "polo", simbolo: "L" };
+  }
+
+  if (slug === "teatro-municipal") {
+    return { clase: "teatro", simbolo: "T" };
+  }
+
+  return { clase: "centro", simbolo: "C" };
+}
+
+function iconoMapa(
+  L: any,
+  item: EspacioMapa,
+  selected = false,
+) {
+  const categoria = categoriaMapa(item.areaSlug);
+
+  return L.divIcon({
+    html: `
+      <div
+        class="gi-cultural-pin gi-pin-${categoria.clase}
+        ${selected ? "is-selected" : ""}"
+      >
+        <span>${categoria.simbolo}</span>
+
+        ${
+          item.validada
+            ? '<b class="gi-pin-state">✓</b>'
+            : '<b class="gi-pin-state is-pending">!</b>'
+        }
+      </div>
+    `,
+    className: "gi-cultural-div-icon",
+    iconSize: selected ? [48, 56] : [40, 48],
+    iconAnchor: selected ? [24, 54] : [20, 46],
+    tooltipAnchor: [0, -40],
+  });
+}
 function MapaLeaflet({
   espacios,
   espacio,
