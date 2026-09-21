@@ -2575,3 +2575,402 @@ small{
   }
 
 }
+
+/* =========================================================
+   ASISTENTE DE CULTURA ETAPA 1
+   ========================================================= */
+
+.assistant-card{
+  text-decoration:none;
+  color:inherit;
+}
+
+.assistant-card.assistant-active{
+  outline:
+    2px solid
+    rgba(255,255,255,.18);
+}
+
+.assistant-page-heading{
+  align-items:center;
+}
+
+.assistant-page-icon{
+  width:52px;
+  height:52px;
+  display:grid;
+  place-items:center;
+  border-radius:13px;
+  background:#dcefed;
+  color:#006f73;
+}
+
+.assistant-source-note{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 13px;
+  border-radius:9px;
+  background:#edf5f3;
+  color:#466260;
+  font-size:11px;
+}
+
+.assistant-source-note svg{
+  color:#00767a;
+}
+
+.culture-assistant{
+  display:grid;
+}
+
+.assistant-conversation{
+  min-height:650px;
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+  border:1px solid #c4d3d0;
+  border-radius:14px;
+  background:#fff;
+  overflow:hidden;
+  box-shadow:
+    0 4px 16px
+    rgba(21,43,46,.06);
+}
+
+.assistant-suggestions{
+  padding:15px 17px;
+  border-bottom:1px solid #dce5e2;
+  background:#f4f8f7;
+}
+
+.assistant-suggestions>span{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-bottom:9px;
+  color:#476260;
+  font-size:10px;
+  font-weight:800;
+  text-transform:uppercase;
+}
+
+.assistant-suggestions>div{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+}
+
+.assistant-suggestions button{
+  border:1px solid #c6d6d3;
+  border-radius:18px;
+  background:#fff;
+  color:#184c4e;
+  padding:7px 10px;
+  font:inherit;
+  font-size:10px;
+  cursor:pointer;
+}
+
+.assistant-suggestions button:hover{
+  border-color:#78a8a5;
+  background:#edf6f4;
+}
+
+.assistant-messages{
+  padding:22px;
+  overflow:auto;
+  display:flex;
+  flex-direction:column;
+  gap:17px;
+}
+
+.assistant-message{
+  display:grid;
+  grid-template-columns:36px minmax(0,1fr);
+  gap:10px;
+  max-width:82%;
+}
+
+.assistant-message.user{
+  align-self:flex-end;
+  grid-template-columns:minmax(0,1fr) 36px;
+}
+
+.assistant-message.user .assistant-avatar{
+  grid-column:2;
+  grid-row:1;
+}
+
+.assistant-message.user>div{
+  grid-column:1;
+  grid-row:1;
+  background:#e9f3f2;
+}
+
+.assistant-avatar{
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  border-radius:9px;
+  background:#dcefed;
+  color:#00767a;
+}
+
+.assistant-message>div{
+  padding:11px 13px;
+  border-radius:10px;
+  background:#f5f8f7;
+}
+
+.assistant-message strong{
+  display:block;
+  margin-bottom:5px;
+  font-size:10px;
+  color:#24494a;
+}
+
+.assistant-message p{
+  margin:0;
+  white-space:pre-wrap;
+  line-height:1.55;
+  font-size:12px;
+  color:#142f31;
+}
+
+.assistant-composer{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:end;
+  gap:10px;
+  padding:15px;
+  border-top:1px solid #dce5e2;
+  background:#f8faf9;
+}
+
+.assistant-composer textarea{
+  width:100%;
+  min-height:72px;
+  max-height:180px;
+  resize:vertical;
+  padding:11px;
+  border:1px solid #bfcfcb;
+  border-radius:9px;
+  background:#fff;
+  color:#102d2e;
+  font:inherit;
+}
+
+.assistant-composer button{
+  min-width:115px;
+  height:44px;
+  justify-content:center;
+}
+
+@media(max-width:700px){
+
+  .assistant-message{
+    max-width:96%;
+  }
+
+  .assistant-composer{
+    grid-template-columns:1fr;
+  }
+
+  .assistant-composer button{
+    width:100%;
+  }
+
+}
+
+/* =========================================================
+   ASISTENTE AUDIO MOVIL
+   ========================================================= */
+
+.assistant-composer-voice{
+  position:relative;
+}
+
+
+.assistant-composer-actions{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+
+.assistant-mic-button{
+  min-width:105px;
+  height:44px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+
+  border:
+    1px solid #93b9b5;
+
+  background:#edf6f4;
+
+  color:#086d70;
+
+  font-weight:800;
+}
+
+
+.assistant-mic-button:hover{
+  background:#e1f0ed;
+}
+
+
+.assistant-mic-button.recording{
+  background:#fff0ef;
+
+  border-color:#d99791;
+
+  color:#a33e36;
+}
+
+
+.assistant-recording-status{
+  grid-column:1/-1;
+
+  display:flex;
+  align-items:center;
+
+  gap:7px;
+
+  color:#a33e36;
+
+  font-size:11px;
+
+  font-weight:800;
+}
+
+
+.assistant-recording-status span{
+  width:9px;
+  height:9px;
+
+  border-radius:50%;
+
+  background:#d54c42;
+
+  animation:
+    gi-recording-pulse
+    1s infinite;
+}
+
+
+@keyframes gi-recording-pulse{
+
+  0%{
+    opacity:1;
+    transform:scale(1);
+  }
+
+  50%{
+    opacity:.35;
+    transform:scale(.75);
+  }
+
+  100%{
+    opacity:1;
+    transform:scale(1);
+  }
+
+}
+
+
+.assistant-audio-error{
+  grid-column:1/-1;
+
+  padding:
+    8px 10px;
+
+  border-radius:7px;
+
+  background:#fff2f0;
+
+  color:#943c35;
+
+  font-size:10px;
+
+  font-weight:700;
+}
+
+
+.assistant-spinner{
+  animation:
+    gi-assistant-spin
+    .8s linear infinite;
+}
+
+
+@keyframes gi-assistant-spin{
+
+  to{
+    transform:
+      rotate(360deg);
+  }
+
+}
+
+
+/* =========================================================
+   TELÉFONO
+   ========================================================= */
+
+@media(max-width:700px){
+
+  .assistant-conversation{
+    min-height:
+      calc(100dvh - 190px);
+  }
+
+
+  .assistant-composer{
+    position:sticky;
+
+    bottom:0;
+
+    z-index:20;
+
+    background:#f8faf9;
+  }
+
+
+  .assistant-composer-actions{
+    display:grid;
+
+    grid-template-columns:
+      1fr 1fr;
+
+    width:100%;
+  }
+
+
+  .assistant-mic-button,
+  .assistant-composer-actions
+  .button{
+    width:100%;
+
+    min-width:0;
+
+    min-height:48px;
+  }
+
+
+  .assistant-mic-button{
+    font-size:13px;
+  }
+
+
+  .assistant-composer textarea{
+    min-height:82px;
+
+    font-size:16px;
+  }
+
+}

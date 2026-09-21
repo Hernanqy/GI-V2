@@ -44,7 +44,18 @@ export function AppShell({ children, nombreUsuario, rolUsuario, busquedaItems }:
     <aside className={`sidebar ${abierto ? "is-open" : ""}`}>
       <div className="sidebar-head"><span>Navegación</span><button className="icon-button mobile-only" onClick={() => setAbierto(false)} aria-label="Cerrar menú"><X size={20}/></button></div>
       <nav>{navegacion.map(({href,etiqueta,icono:Icon})=>{const activo=href==="/"?pathname==="/":pathname.startsWith(href);return <Link key={href} href={href} className={activo?"active":""} onClick={()=>setAbierto(false)}><Icon size={19}/><span>{etiqueta}</span></Link>})}</nav>
-      <div className="assistant-card"><Bot size={22}/><div><strong>Asistente de Cultura</strong><small>Integración prevista con la API de OpenAI.</small></div><span>Próxima etapa</span></div>
+      <Link
+      href="/asistente"
+      className={`assistant-card ${pathname.startsWith("/asistente") ? "assistant-active" : ""}`}
+      onClick={() => setAbierto(false)}
+    >
+      <Bot size={22}/>
+      <div>
+        <strong>Asistente de Cultura</strong>
+        <small>Consultá la información actual de GI.</small>
+      </div>
+      <span>Abrir asistente</span>
+    </Link>
     </aside>
     <main className="main-content">{children}</main>
   </div>;
