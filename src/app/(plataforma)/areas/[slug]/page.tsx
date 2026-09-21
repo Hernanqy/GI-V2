@@ -22,8 +22,18 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
 
   // Piloto visual.
   // Por ahora se aplica solamente a Casa del Bicentenario.
-  const esPilotoFicha =
-    area.slug === "casa-del-bicentenario";
+  const esPilotoFicha = true;
+
+  // En estas dependencias, dependencia y espacio físico
+  // representan prácticamente la misma unidad.
+  // Por eso evitamos duplicar la edición institucional.
+  const esDependenciaEspacioUnico = [
+    "casa-del-bicentenario",
+    "centro-cultural-hinojo",
+    "centro-cultural-san-jose",
+    "centro-cultural-sierras-bayas",
+    "teatro-municipal",
+  ].includes(area.slug);
 
   return (
     <div className="page-stack">
@@ -118,7 +128,7 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
           <AreaStaffPanel areaId={area.id} slug={area.slug} espacios={area.espacios} />
         </div>
         <aside className="detail-aside">
-          {editable && !esPilotoFicha ? (
+          {editable && !esDependenciaEspacioUnico ? (
             <AreaEditPanel
               id={area.id}
               slug={area.slug}
