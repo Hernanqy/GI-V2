@@ -4994,3 +4994,304 @@ small{
   }
 
 }
+
+/* =========================================================
+   CARDS OPERATIVAS EDITABLES 2026
+   ========================================================= */
+
+.operational-card-edit-zone{
+  margin-top:14px;
+  padding-top:12px;
+  border-top:1px solid #d8e3e1;
+}
+
+
+.operational-card-editor{
+  border:1px solid #c9d8d5;
+  border-radius:9px;
+  background:#f8faf9;
+  overflow:hidden;
+}
+
+
+.operational-card-editor + .operational-card-editor{
+  margin-top:8px;
+}
+
+
+.operational-card-editor>summary{
+  min-height:42px;
+
+  display:flex;
+  align-items:center;
+  gap:7px;
+
+  padding:0 12px;
+
+  color:#08777a;
+
+  font-size:10px;
+  font-weight:900;
+
+  cursor:pointer;
+
+  list-style:none;
+}
+
+
+.operational-card-editor>summary::-webkit-details-marker{
+  display:none;
+}
+
+
+.operational-card-editor[open]>summary{
+  background:#e9f3f1;
+  border-bottom:1px solid #cbdad7;
+}
+
+
+.operational-edit-form{
+  padding:12px;
+}
+
+
+.operational-edit-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap:9px;
+}
+
+
+.operational-edit-grid label{
+  display:grid;
+  gap:5px;
+}
+
+
+.operational-edit-grid label.wide{
+  grid-column:1/-1;
+}
+
+
+.operational-edit-grid label>span{
+  color:#466263;
+
+  font-size:8px;
+  font-weight:900;
+
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+
+
+.operational-edit-grid input,
+.operational-edit-grid select,
+.operational-edit-grid textarea{
+  width:100%;
+  min-width:0;
+
+  border:1px solid #bccfcb;
+  border-radius:7px;
+
+  background:#fff;
+  color:#173638;
+
+  font:inherit;
+  font-size:10px;
+
+  outline:none;
+}
+
+
+.operational-edit-grid input,
+.operational-edit-grid select{
+  height:38px;
+  padding:0 9px;
+}
+
+
+.operational-edit-grid textarea{
+  padding:9px;
+  resize:vertical;
+  line-height:1.4;
+}
+
+
+.operational-edit-grid input:focus,
+.operational-edit-grid select:focus,
+.operational-edit-grid textarea:focus{
+  border-color:#08777a;
+
+  box-shadow:
+    0 0 0 2px
+    rgba(8,119,122,.08);
+}
+
+
+.operational-edit-help{
+  margin-top:10px;
+
+  padding:8px 9px;
+
+  border-radius:7px;
+
+  background:#edf4f2;
+
+  color:#536d6e;
+
+  font-size:8px;
+  line-height:1.4;
+}
+
+
+.operational-save-button{
+  margin-top:10px;
+
+  min-height:38px;
+
+  justify-content:center;
+}
+
+
+/* SEDES */
+
+.venue-edit-list{
+  display:grid;
+  gap:10px;
+
+  padding:10px;
+}
+
+
+.venue-edit-form{
+  padding:11px;
+
+  border:1px solid #d4e0de;
+  border-radius:8px;
+
+  background:#fff;
+}
+
+
+.venue-edit-form.new{
+  margin-top:8px;
+}
+
+
+.venue-editor-title{
+  display:flex;
+
+  justify-content:space-between;
+  align-items:center;
+
+  gap:10px;
+
+  margin-bottom:10px;
+}
+
+
+.venue-editor-title strong{
+  font-size:10px;
+}
+
+
+.venue-editor-title span{
+  font-size:8px;
+  color:#718485;
+}
+
+
+.operational-check{
+  display:flex!important;
+
+  grid-template-columns:18px 1fr;
+
+  align-items:center;
+
+  gap:6px!important;
+
+  min-height:38px;
+}
+
+
+.operational-check input{
+  width:16px!important;
+  height:16px!important;
+}
+
+
+.operational-check span{
+  text-transform:none!important;
+  letter-spacing:0!important;
+}
+
+
+.venue-save-button{
+  margin-top:9px;
+
+  min-height:35px;
+
+  justify-content:center;
+}
+
+
+.new-venue-editor{
+  border-top:1px dashed #bccfcb;
+
+  padding-top:8px;
+}
+
+
+.new-venue-editor>summary{
+  display:flex;
+
+  align-items:center;
+
+  gap:6px;
+
+  color:#08777a;
+
+  font-size:9px;
+  font-weight:900;
+
+  cursor:pointer;
+
+  list-style:none;
+}
+
+
+.new-venue-editor>summary::-webkit-details-marker{
+  display:none;
+}
+
+
+/* MOBILE */
+
+@media(max-width:650px){
+
+  .operational-edit-grid{
+    grid-template-columns:1fr;
+  }
+
+
+  .operational-edit-grid label.wide{
+    grid-column:auto;
+  }
+
+
+  .venue-editor-title{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:3px;
+  }
+
+
+  .operational-save-button,
+  .venue-save-button{
+    width:100%;
+  }
+
+}

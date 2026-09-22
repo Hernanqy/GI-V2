@@ -13,67 +13,42 @@ import {
   Users,
 } from "lucide-react";
 
-import { createClient } from "@/lib/supabase/server";
-import type { EspacioCultural } from "@/lib/areas-data";
+import {
+  OperationalCardEditor,
+  type OperationalLocation,
+} from "@/components/operational-card-editor";
+
+import {
+  createClient,
+} from "@/lib/supabase/server";
+
+import type {
+  EspacioCultural,
+} from "@/lib/areas-data";
 
 
 type Props = {
-
   areaId: string;
-
   areaSlug: string;
-
   areaName: string;
-
   espacios: EspacioCultural[];
-
+  editable?: boolean;
 };
 
 
 type EntryRow = {
-
   id: string;
-
   title: string;
-
   starts_at: string | null;
-
   space_id: string | null;
-
   status: string;
-
-};
-
-
-type LocationRow = {
-
-  id: string;
-
-  space_id: string;
-
-  venue_name: string;
-
-  locality: string | null;
-
-  address: string | null;
-
-  schedule_text: string | null;
-
-  location_validated: boolean;
-
-  is_primary: boolean;
-
 };
 
 
 type MetricRow = {
-
   space_id: string;
-
   visitors_count: number | null;
-
   participants_count: number | null;
-
 };
 
 
@@ -81,11 +56,18 @@ function fechaAgenda(
   valor: string | null,
 ) {
 
-  if (!valor) return "";
+  if (!valor) {
+    return "";
+  }
 
-  const fecha = new Date(valor);
+  const fecha =
+    new Date(valor);
 
-  if (Number.isNaN(fecha.getTime())) {
+  if (
+    Number.isNaN(
+      fecha.getTime(),
+    )
+  ) {
     return "";
   }
 
@@ -94,22 +76,21 @@ function fechaAgenda(
     {
       day: "2-digit",
       month: "short",
-
       hour: "2-digit",
       minute: "2-digit",
-
       hour12: false,
-
       timeZone:
         "America/Argentina/Buenos_Aires",
     },
   ).format(fecha);
-
 }
 
 
 function valorMetrica(
-  valor: number | null | undefined,
+  valor:
+    number |
+    null |
+    undefined,
 ) {
 
   if (
@@ -122,46 +103,41 @@ function valorMetrica(
   return new Intl.NumberFormat(
     "es-AR",
   ).format(valor);
-
 }
 
 
 function agendaEspacio(
-
   entradas: EntryRow[],
-
   spaceId: string,
-
   usarAgendaArea: boolean,
-
 ) {
 
   return entradas
+    .filter(
+      (item) => {
 
-    .filter((item) => {
+        if (
+          item.status ===
+            "cancelado" ||
+          item.status ===
+            "completado"
+        ) {
+          return false;
+        }
 
-      if (
-        item.status === "cancelado" ||
-        item.status === "completado"
-      ) {
-        return false;
-      }
+        if (
+          item.space_id ===
+          spaceId
+        ) {
+          return true;
+        }
 
-
-      if (
-        item.space_id === spaceId
-      ) {
-        return true;
-      }
-
-
-      return (
-        usarAgendaArea &&
-        !item.space_id
-      );
-
-    })
-
+        return (
+          usarAgendaArea &&
+          !item.space_id
+        );
+      },
+    )
     .sort(
       (a, b) =>
         new Date(
@@ -171,49 +147,96 @@ function agendaEspacio(
           b.starts_at ?? 0,
         ).getTime(),
     );
+}
 
+
+function etiquetaEstado(
+  estado: string,
+) {
+
+  const valores:
+    Record<string, string> = {
+
+    activo:
+      "Activo",
+
+    actividad_parcial:
+      "Actividad parcial",
+
+    cerrado_temporalmente:
+      "Cerrado temporalmente",
+
+    sin_referente:
+      "Sin referente",
+
+    a_confirmar:
+      "A confirmar",
+  };
+
+  return (
+    valores[estado] ??
+    "A confirmar"
+  );
+}
+
+
+function mesActual() {
+
+  const parts =
+    new Intl.DateTimeFormat(
+      "en",
+      {
+        year: "numeric",
+        month: "2-digit",
+        timeZone:
+          "America/Argentina/Buenos_Aires",
+      },
+    ).formatToParts(
+      new Date(),
+    );
+
+  const year =
+    parts.find(
+      (x) =>
+        x.type === "year",
+    )?.value;
+
+  const month =
+    parts.find(
+      (x) =>
+        x.type === "month",
+    )?.value;
+
+  return `${year}-${month}-01`;
 }
 
 
 export async function AreaOperationalOverview({
-
   areaId,
-
   areaSlug,
-
   areaName,
-
   espacios,
-
+  editable = false,
 }: Props) {
-
 
   const supabase =
     await createClient();
 
-
   const db =
     supabase as any;
-
 
   const ahora =
     new Date();
 
-
   const inicioMes =
-    `${ahora.getFullYear()}-${String(
-      ahora.getMonth() + 1,
-    ).padStart(2, "0")}-01`;
-
+    mesActual();
 
   const etiquetaMes =
     new Intl.DateTimeFormat(
       "es-AR",
       {
         month: "long",
-
         year: "numeric",
-
         timeZone:
           "America/Argentina/Buenos_Aires",
       },
@@ -225,40 +248,35 @@ export async function AreaOperationalOverview({
   } =
     await db
       .from("entries")
-
       .select(
         "id, title, starts_at, space_id, status",
       )
-
       .eq(
         "area_id",
         areaId,
       )
-
       .gte(
         "starts_at",
         ahora.toISOString(),
       )
-
       .order(
         "starts_at",
         {
           ascending: true,
         },
       )
-
-      .limit(150);
+      .limit(200);
 
 
   const ids =
     espacios.map(
-      (item) => item.id,
+      (item) =>
+        item.id,
     );
 
 
   let ubicaciones:
-    LocationRow[] = [];
-
+    OperationalLocation[] = [];
 
   let metricas:
     MetricRow[] = [];
@@ -267,7 +285,6 @@ export async function AreaOperationalOverview({
   if (
     ids.length > 0
   ) {
-
 
     const [
       locationsResult,
@@ -279,7 +296,6 @@ export async function AreaOperationalOverview({
           .from(
             "space_locations",
           )
-
           .select(
             `
               id,
@@ -292,24 +308,20 @@ export async function AreaOperationalOverview({
               is_primary
             `,
           )
-
           .in(
             "space_id",
             ids,
           )
-
           .eq(
             "active",
             true,
           )
-
           .order(
             "is_primary",
             {
               ascending: false,
             },
           )
-
           .order(
             "venue_name",
           ),
@@ -319,7 +331,6 @@ export async function AreaOperationalOverview({
           .from(
             "space_monthly_metrics",
           )
-
           .select(
             `
               space_id,
@@ -327,12 +338,10 @@ export async function AreaOperationalOverview({
               participants_count
             `,
           )
-
           .in(
             "space_id",
             ids,
           )
-
           .eq(
             "period_month",
             inicioMes,
@@ -342,18 +351,19 @@ export async function AreaOperationalOverview({
 
 
     ubicaciones =
-      locationsResult.data ?? [];
-
+      locationsResult.data ??
+      [];
 
     metricas =
-      metricsResult.data ?? [];
-
+      metricsResult.data ??
+      [];
   }
 
 
   const entradas:
     EntryRow[] =
-    entriesData ?? [];
+    entriesData ??
+    [];
 
 
   const esEducacion =
@@ -370,116 +380,68 @@ export async function AreaOperationalOverview({
   ) {
 
     return (
+      <section className="panel operational-overview">
 
-      <section
-        className="
-          panel
-          operational-overview
-        "
-      >
-
-        <div
-          className="
-            operational-overview-heading
-          "
-        >
+        <div className="operational-overview-heading">
 
           <div>
-
-            <span
-              className="eyebrow"
-            >
+            <span className="eyebrow">
               Información actual
             </span>
-
 
             <h2>
               Datos operativos
             </h2>
 
-
             <p>
-              Todavía no hay espacios
-              cargados para mostrar
-              información dinámica.
+              Todavía no hay espacios cargados para mostrar información dinámica.
             </p>
-
           </div>
 
         </div>
 
       </section>
-
     );
-
   }
 
 
   return (
-
     <section
-      className={`
-        panel
-        operational-overview
-
-        ${
-          esEducacion
-            ? "education-overview"
-            : ""
-        }
-      `}
+      className={`panel operational-overview ${
+        esEducacion
+          ? "education-overview"
+          : ""
+      }`}
     >
 
-
-      <div
-        className="
-          operational-overview-heading
-        "
-      >
-
+      <div className="operational-overview-heading">
 
         <div>
 
-          <span
-            className="eyebrow"
-          >
+          <span className="eyebrow">
             Información actual
           </span>
 
-
           <h2>
-
             {
               esEducacion
-
                 ? "Escuelas municipales · datos y sedes"
-
                 : "Datos operativos de los espacios"
             }
-
           </h2>
 
-
           <p>
-
             {
               esEducacion
-
                 ? "Responsables, sedes, días, horarios, contacto, participantes y agenda."
-
                 : "Ubicación, responsable, horarios, contacto, visitantes y próxima agenda."
             }
-
           </p>
 
         </div>
 
 
-        <span
-          className="
-            operational-overview-count
-          "
-        >
+        <span className="operational-overview-count">
 
           {espacios.length}{" "}
 
@@ -491,35 +453,26 @@ export async function AreaOperationalOverview({
 
         </span>
 
-
       </div>
 
 
       <div
         className={
           esEducacion
-
             ? "school-overview-grid"
-
             : "space-overview-grid"
         }
       >
-
 
         {
           espacios.map(
             (espacio) => {
 
-
               const agenda =
                 agendaEspacio(
-
                   entradas,
-
                   espacio.id,
-
                   usarAgendaArea,
-
                 );
 
 
@@ -529,165 +482,125 @@ export async function AreaOperationalOverview({
 
               const metrica =
                 metricas.find(
-
                   (item) =>
                     item.space_id ===
                     espacio.id,
-
                 );
 
 
               const sedes =
                 ubicaciones.filter(
-
                   (item) =>
                     item.space_id ===
                     espacio.id,
-
                 );
 
 
               const ubicacion =
                 [
-
                   espacio.direccion,
-
                   espacio.localidad,
-
                 ]
-
                   .filter(Boolean)
-
                   .join(" · ");
 
 
+              const editor =
+                editable
+                  ? (
+                    <OperationalCardEditor
+                      areaId={areaId}
+                      areaSlug={areaSlug}
+                      espacio={espacio}
+                      esEducacion={esEducacion}
+                      metricMonth={inicioMes}
+                      metricValue={
+                        esEducacion
+                          ? (
+                              metrica
+                                ?.participants_count ??
+                              null
+                            )
+                          : (
+                              metrica
+                                ?.visitors_count ??
+                              null
+                            )
+                      }
+                      sedes={sedes}
+                    />
+                  )
+                  : null;
 
-              if (
-                esEducacion
-              ) {
+
+              if (esEducacion) {
 
                 return (
-
                   <article
-
-                    className="
-                      school-overview-card
-                    "
-
-                    key={
-                      espacio.id
-                    }
-
+                    className="school-overview-card"
+                    key={espacio.id}
                   >
 
+                    <header className="overview-card-header">
 
-                    <header
-                      className="
-                        overview-card-header
-                      "
-                    >
-
-
-                      <span
-                        className="
-                          overview-card-icon
-                          education
-                        "
-                      >
-
-                        <GraduationCap
-                          size={20}
-                        />
-
+                      <span className="overview-card-icon education">
+                        <GraduationCap size={20} />
                       </span>
 
 
                       <div>
 
                         <strong>
-
-                          {
-                            espacio.nombre
-                          }
-
+                          {espacio.nombre}
                         </strong>
 
-
                         <small>
-
-                          {
-                            sedes.length
-                          }{" "}
-
+                          {sedes.length}{" "}
                           {
                             sedes.length === 1
                               ? "sede registrada"
                               : "sedes registradas"
                           }
-
                         </small>
 
                       </div>
 
 
                       <span
-                        className={`
-                          overview-status
-
-                          ${
-                            espacio.estadoOperativo ===
-                            "activo"
-
-                              ? "is-active"
-
-                              : ""
-                          }
-                        `}
-                      >
-
-                        {
+                        className={`overview-status ${
                           espacio.estadoOperativo ===
-                          "activo"
-
-                            ? "Activo"
-
-                            : "A confirmar"
+                            "activo"
+                            ? "is-active"
+                            : ""
+                        }`}
+                      >
+                        {
+                          etiquetaEstado(
+                            espacio.estadoOperativo,
+                          )
                         }
-
                       </span>
-
 
                     </header>
 
 
-                    <div
-                      className="
-                        school-key-data
-                      "
-                    >
-
+                    <div className="school-key-data">
 
                       <div>
 
-                        <UserRound
-                          size={17}
-                        />
+                        <UserRound size={17} />
 
                         <span>
-
                           <small>
                             Responsable
                           </small>
 
                           <strong>
-
                             {
                               espacio.responsable ||
                               "A completar"
                             }
-
                           </strong>
-
                         </span>
 
                       </div>
@@ -695,25 +608,19 @@ export async function AreaOperationalOverview({
 
                       <div>
 
-                        <Phone
-                          size={17}
-                        />
+                        <Phone size={17} />
 
                         <span>
-
                           <small>
                             Contacto
                           </small>
 
                           <strong>
-
                             {
                               espacio.contacto ||
                               "A completar"
                             }
-
                           </strong>
-
                         </span>
 
                       </div>
@@ -721,27 +628,21 @@ export async function AreaOperationalOverview({
 
                       <div>
 
-                        <Users
-                          size={17}
-                        />
+                        <Users size={17} />
 
                         <span>
-
                           <small>
                             Participantes · {etiquetaMes}
                           </small>
 
                           <strong>
-
                             {
                               valorMetrica(
                                 metrica
                                   ?.participants_count,
                               )
                             }
-
                           </strong>
-
                         </span>
 
                       </div>
@@ -749,212 +650,133 @@ export async function AreaOperationalOverview({
 
                       <div>
 
-                        <CalendarDays
-                          size={17}
-                        />
+                        <CalendarDays size={17} />
 
                         <span>
-
                           <small>
                             Agenda próxima
                           </small>
 
                           <strong>
-
                             {
                               agenda.length === 0
-
                                 ? "Sin actividades"
-
                                 : `${agenda.length} ${
                                     agenda.length === 1
                                       ? "actividad"
                                       : "actividades"
                                   }`
                             }
-
                           </strong>
-
 
                           {
                             proximo
                               ? (
-
                                 <em>
-
                                   {
                                     fechaAgenda(
                                       proximo.starts_at,
                                     )
                                   }
-
                                   {" · "}
-
                                   {
                                     proximo.title
                                   }
-
                                 </em>
-
                               )
                               : null
                           }
-
                         </span>
 
                       </div>
-
 
                     </div>
 
 
                     <details
-                      className="
-                        school-venues
-                      "
-
+                      className="school-venues"
                       open={
                         sedes.length > 0 &&
                         sedes.length <= 2
                       }
                     >
 
-
                       <summary>
 
                         <span>
-
-                          <MapPin
-                            size={16}
-                          />
-
+                          <MapPin size={16} />
                           Sedes y horarios
-
                         </span>
 
-
                         <strong>
-
-                          {
-                            sedes.length
-                          }
-
+                          {sedes.length}
                         </strong>
 
                       </summary>
 
 
-                      <div
-                        className="
-                          school-venue-list
-                        "
-                      >
-
+                      <div className="school-venue-list">
 
                         {
                           sedes.length === 0
-
                             ? (
+                              <div className="school-venue-empty">
 
-                              <div
-                                className="
-                                  school-venue-empty
-                                "
-                              >
-
-                                <CircleAlert
-                                  size={16}
-                                />
+                                <CircleAlert size={16} />
 
                                 <span>
-
-                                  No hay sedes
-                                  específicas
-                                  vinculadas.
-
+                                  No hay sedes específicas vinculadas.
                                 </span>
 
                               </div>
-
                             )
-
                             : (
-
                               sedes.map(
                                 (sede) => (
-
                                   <div
-                                    className="
-                                      school-venue-row
-                                    "
-
-                                    key={
-                                      sede.id
-                                    }
+                                    className="school-venue-row"
+                                    key={sede.id}
                                   >
 
-
-                                    <span
-                                      className="
-                                        school-venue-marker
-                                      "
-                                    >
-
-                                      <MapPin
-                                        size={15}
-                                      />
-
+                                    <span className="school-venue-marker">
+                                      <MapPin size={15} />
                                     </span>
 
 
                                     <span>
 
                                       <strong>
-
-                                        {
-                                          sede.venue_name
-                                        }
+                                        {sede.venue_name}
 
                                         {
                                           sede.is_primary
                                             ? " · Principal"
                                             : ""
                                         }
-
                                       </strong>
 
 
                                       <small>
-
                                         {
                                           [
                                             sede.address,
                                             sede.locality,
                                           ]
-
                                             .filter(Boolean)
-
                                             .join(" · ")
-
                                           ||
-
                                           "Dirección a completar"
                                         }
-
                                       </small>
 
 
                                       <em>
-
-                                        <Clock3
-                                          size={13}
-                                        />
+                                        <Clock3 size={13} />
 
                                         {
                                           sede.schedule_text ||
                                           "Días y horarios a completar"
                                         }
-
                                       </em>
 
                                     </span>
@@ -962,373 +784,235 @@ export async function AreaOperationalOverview({
 
                                     {
                                       sede.location_validated
-
                                         ? (
-
                                           <BadgeCheck
-                                            className="
-                                              school-venue-valid
-                                            "
+                                            className="school-venue-valid"
                                             size={17}
                                           />
-
                                         )
-
                                         : (
-
                                           <CircleAlert
-                                            className="
-                                              school-venue-pending
-                                            "
+                                            className="school-venue-pending"
                                             size={17}
                                           />
-
                                         )
                                     }
 
-
                                   </div>
-
                                 ),
                               )
-
                             )
                         }
 
-
                       </div>
-
 
                     </details>
 
 
+                    {editor}
+
                   </article>
-
                 );
-
               }
 
 
-
-
               return (
-
                 <article
-
-                  className="
-                    space-overview-card
-                  "
-
-                  key={
-                    espacio.id
-                  }
-
+                  className="space-overview-card"
+                  key={espacio.id}
                 >
 
+                  <header className="overview-card-header">
 
-                  <header
-                    className="
-                      overview-card-header
-                    "
-                  >
-
-
-                    <span
-                      className="
-                        overview-card-icon
-                      "
-                    >
-
-                      <Building2
-                        size={20}
-                      />
-
+                    <span className="overview-card-icon">
+                      <Building2 size={20} />
                     </span>
 
 
                     <div>
 
                       <strong>
-
-                        {
-                          espacio.nombre
-                        }
-
+                        {espacio.nombre}
                       </strong>
 
                       <small>
-
                         {
                           espacio.tipo ||
                           areaName
                         }
-
                       </small>
 
                     </div>
 
 
                     <span
-                      className={`
-                        overview-status
-
-                        ${
-                          espacio.estadoOperativo ===
-                          "activo"
-
-                            ? "is-active"
-
-                            : ""
-                        }
-                      `}
-                    >
-
-                      {
+                      className={`overview-status ${
                         espacio.estadoOperativo ===
-                        "activo"
-
-                          ? "Activo"
-
-                          : "A confirmar"
+                          "activo"
+                          ? "is-active"
+                          : ""
+                      }`}
+                    >
+                      {
+                        etiquetaEstado(
+                          espacio.estadoOperativo,
+                        )
                       }
-
                     </span>
-
 
                   </header>
 
 
-                  <div
-                    className="
-                      operational-data-grid
-                    "
-                  >
+                  <div className="operational-data-grid">
 
+                    <div className="operational-data-item">
 
-                    <div
-                      className="
-                        operational-data-item
-                      "
-                    >
-
-                      <MapPin
-                        size={18}
-                      />
+                      <MapPin size={18} />
 
                       <span>
-
                         <small>
                           Ubicación
                         </small>
 
                         <strong>
-
                           {
                             ubicacion ||
                             "A completar"
                           }
-
                         </strong>
-
                       </span>
 
                     </div>
 
 
-                    <div
-                      className="
-                        operational-data-item
-                      "
-                    >
+                    <div className="operational-data-item">
 
-                      <UserRound
-                        size={18}
-                      />
+                      <UserRound size={18} />
 
                       <span>
-
                         <small>
                           Responsable / referente
                         </small>
 
                         <strong>
-
                           {
                             espacio.responsable ||
                             "A completar"
                           }
-
                         </strong>
-
                       </span>
 
                     </div>
 
 
-                    <div
-                      className="
-                        operational-data-item
-                      "
-                    >
+                    <div className="operational-data-item">
 
-                      <Clock3
-                        size={18}
-                      />
+                      <Clock3 size={18} />
 
                       <span>
-
                         <small>
                           Horarios
                         </small>
 
                         <strong>
-
                           {
                             espacio.horarios ||
                             "A completar"
                           }
-
                         </strong>
-
                       </span>
 
                     </div>
 
 
-                    <div
-                      className="
-                        operational-data-item
-                      "
-                    >
+                    <div className="operational-data-item">
 
-                      <Phone
-                        size={18}
-                      />
+                      <Phone size={18} />
 
                       <span>
-
                         <small>
                           Contacto
                         </small>
 
                         <strong>
-
                           {
                             espacio.contacto ||
                             "A completar"
                           }
-
                         </strong>
-
                       </span>
 
                     </div>
 
 
-                    <div
-                      className="
-                        operational-data-item
-                        metric
-                      "
-                    >
+                    <div className="operational-data-item metric">
 
-                      <Users
-                        size={18}
-                      />
+                      <Users size={18} />
 
                       <span>
-
                         <small>
                           Visitantes · {etiquetaMes}
                         </small>
 
                         <strong>
-
                           {
                             valorMetrica(
                               metrica
                                 ?.visitors_count,
                             )
                           }
-
                         </strong>
-
                       </span>
 
                     </div>
 
 
-                    <div
-                      className="
-                        operational-data-item
-                        metric
-                      "
-                    >
+                    <div className="operational-data-item metric">
 
-                      <CalendarDays
-                        size={18}
-                      />
+                      <CalendarDays size={18} />
 
                       <span>
-
                         <small>
                           Agenda próxima
                         </small>
 
                         <strong>
-
                           {
                             agenda.length === 0
-
                               ? "Sin actividades"
-
                               : `${agenda.length} ${
                                   agenda.length === 1
                                     ? "actividad"
                                     : "actividades"
                                 }`
                           }
-
                         </strong>
-
 
                         {
                           proximo
                             ? (
-
                               <em>
-
                                 {
                                   fechaAgenda(
                                     proximo.starts_at,
                                   )
                                 }
-
                                 {" · "}
-
                                 {
                                   proximo.title
                                 }
-
                               </em>
-
                             )
                             : null
                         }
-
                       </span>
 
                     </div>
 
-
                   </div>
 
 
-                  <div
-                    className="
-                      overview-card-links
-                    "
-                  >
+                  <div className="overview-card-links">
 
                     <Link href="/mapa">
                       Ver en mapa
@@ -1341,44 +1025,28 @@ export async function AreaOperationalOverview({
                   </div>
 
 
+                  {editor}
+
                 </article>
-
               );
-
             },
           )
         }
 
-
       </div>
 
 
-      <div
-        className="
-          operational-metric-note
-        "
-      >
+      <div className="operational-metric-note">
 
-        <CircleAlert
-          size={16}
-        />
+        <CircleAlert size={16} />
 
         <span>
-
-          Visitantes y participantes
-          se mostrarán por mes.
-
-          Cuando todavía no existe
-          una carga estadística
-          aparece “Sin carga”.
-
+          Visitantes y participantes se muestran por mes.
+          Cuando todavía no existe una carga estadística aparece “Sin carga”.
         </span>
 
       </div>
 
-
     </section>
-
   );
-
 }
