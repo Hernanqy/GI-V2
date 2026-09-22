@@ -3,18 +3,28 @@
 import Link from "next/link";
 
 import {
+  useActionState,
+  useEffect,
   useMemo,
   useState,
 } from "react";
 
 import {
   CalendarDays,
+  Check,
   CheckCircle2,
   Clock3,
   MapPin,
+  Pencil,
   Plus,
   TriangleAlert,
+  X,
 } from "lucide-react";
+
+import {
+  actualizarAgendaRapida,
+  type AgendaQuickState,
+} from "@/app/(plataforma)/areas/agenda-actions";
 
 
 export type AreaAgendaItem = {
@@ -23,6 +33,7 @@ export type AreaAgendaItem = {
   detalle: string;
   estado: string;
   categoria: string;
+  espacioId: string | null;
   espacio: string | null;
   fecha: string | null;
   inicio: string | null;
@@ -31,10 +42,17 @@ export type AreaAgendaItem = {
 };
 
 
+type EspacioOption = {
+  id: string;
+  nombre: string;
+};
+
+
 type Props = {
   areaName: string;
   entradas: AreaAgendaItem[];
   hrefCarga: string;
+  espacios: EspacioOption[];
 };
 
 
@@ -93,13 +111,54 @@ function fechaArgentina(
 }
 
 
+function horaInput(
+  valor: string | null,
+) {
+
+  if (!valor) {
+    return "";
+  }
+
+
+  const partes =
+    new Intl.DateTimeFormat(
+      "en",
+      {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+
+        timeZone:
+          "America/Argentina/Buenos_Aires",
+      },
+    ).formatToParts(
+      new Date(valor),
+    );
+
+
+  const hour =
+    partes.find(
+      (parte) =>
+        parte.type === "hour",
+    )?.value ?? "";
+
+
+  const minute =
+    partes.find(
+      (parte) =>
+        parte.type === "minute",
+    )?.value ?? "";
+
+
+  return `${hour}:${minute}`;
+}
+
+
 function claveMes(
   entrada: AreaAgendaItem,
 ) {
 
-  if (
-    entrada.fecha
-  ) {
+  if (entrada.fecha) {
     return entrada.fecha.slice(
       0,
       7,
@@ -107,9 +166,7 @@ function claveMes(
   }
 
 
-  if (
-    entrada.inicio
-  ) {
+  if (entrada.inicio) {
     return fechaArgentina(
       entrada.inicio,
     ).slice(
@@ -125,7 +182,7 @@ function claveMes(
 
 function claveMesActual() {
 
-  const parts =
+  const partes =
     new Intl.DateTimeFormat(
       "en",
       {
@@ -141,14 +198,14 @@ function claveMesActual() {
 
 
   const year =
-    parts.find(
+    partes.find(
       (item) =>
         item.type === "year",
     )?.value ?? "";
 
 
   const month =
-    parts.find(
+    partes.find(
       (item) =>
         item.type === "month",
     )?.value ?? "";
@@ -163,7 +220,8 @@ function nombreMes(
 ) {
 
   if (
-    clave === "sin-fecha"
+    clave ===
+    "sin-fecha"
   ) {
     return "A DEFINIR";
   }
@@ -183,7 +241,6 @@ function nombreMes(
     {
       month: "short",
       year: "numeric",
-
       timeZone: "UTC",
     },
   )
@@ -206,7 +263,8 @@ function nombreMesCompleto(
 ) {
 
   if (
-    clave === "sin-fecha"
+    clave ===
+    "sin-fecha"
   ) {
     return "Sin fecha / A definir";
   }
@@ -227,7 +285,6 @@ function nombreMesCompleto(
       {
         month: "long",
         year: "numeric",
-
         timeZone: "UTC",
       },
     ).format(
@@ -265,14 +322,12 @@ function diaVisual(
     );
 
 
-  if (
-    !fecha
-  ) {
+  if (!fecha) {
     return "--";
   }
 
 
-  const diaInicio =
+  const inicio =
     fecha.slice(
       8,
       10,
@@ -291,7 +346,7 @@ function diaVisual(
       )
   ) {
 
-    const diaFin =
+    const fin =
       entrada.fechaFin.slice(
         8,
         10,
@@ -299,15 +354,14 @@ function diaVisual(
 
 
     if (
-      diaFin !==
-      diaInicio
+      fin !== inicio
     ) {
-      return `${diaInicio}–${diaFin}`;
+      return `${inicio}–${fin}`;
     }
   }
 
 
-  return diaInicio;
+  return inicio;
 }
 
 
@@ -376,10 +430,554 @@ function faltantesReales(
 }
 
 
+const estadoInicial:
+AgendaQuickState = {
+  ok: false,
+  mensaje: "",
+};
+
+
+function AgendaCard({
+  entrada,
+  mesActivo,
+  espacios,
+}: {
+  entrada: AreaAgendaItem;
+  mesActivo: string;
+  espacios: EspacioOption[];
+}) {
+
+  const [
+    editando,
+    setEditando,
+  ] =
+    useState(false);
+
+
+  const accion =
+    actualizarAgendaRapida.bind(
+      null,
+      entrada.id,
+    );
+
+
+  const [
+    estado,
+    formAction,
+    guardando,
+  ] =
+    useActionState(
+      accion,
+      estadoInicial,
+    );
+
+
+  useEffect(
+    () => {
+
+      if (estado.ok) {
+        setEditando(false);
+      }
+
+    },
+    [estado.ok],
+  );
+
+
+  const faltantes =
+    faltantesReales(
+      entrada,
+    );
+
+
+  const completa =
+    faltantes.length === 0;
+
+
+  if (editando) {
+
+    return (
+      <article className="area-agenda-card agenda-quick-edit-card">
+
+        <form
+          action={formAction}
+          className="agenda-quick-form"
+        >
+
+          <div className="agenda-quick-title">
+
+            <strong>
+              Editar actividad
+            </strong>
+
+            <button
+              type="button"
+              className="agenda-quick-close"
+              onClick={
+                () =>
+                  setEditando(
+                    false,
+                  )
+              }
+              aria-label="Cancelar edición"
+            >
+              <X size={16} />
+            </button>
+
+          </div>
+
+
+          <label className="agenda-quick-wide">
+
+            <span>
+              Título
+            </span>
+
+            <input
+              name="title"
+              defaultValue={
+                entrada.titulo
+              }
+              required
+            />
+
+          </label>
+
+
+          <div className="agenda-quick-two">
+
+            <label>
+
+              <span>
+                Fecha
+              </span>
+
+              <input
+                type="date"
+                name="date"
+                defaultValue={
+                  entrada.fecha ??
+                  (
+                    entrada.inicio
+                      ? fechaArgentina(
+                          entrada.inicio,
+                        )
+                      : ""
+                  )
+                }
+              />
+
+            </label>
+
+
+            <label>
+
+              <span>
+                Hora
+              </span>
+
+              <input
+                type="time"
+                name="time"
+                defaultValue={
+                  horaInput(
+                    entrada.inicio,
+                  )
+                }
+              />
+
+            </label>
+
+          </div>
+
+
+          <div className="agenda-quick-two">
+
+            <label>
+
+              <span>
+                Tipo
+              </span>
+
+              <select
+                name="category"
+                defaultValue={
+                  entrada.categoria
+                }
+              >
+
+                <option value="evento">
+                  Evento
+                </option>
+
+                <option value="taller">
+                  Taller
+                </option>
+
+                <option value="propuesta_educativa">
+                  Propuesta educativa
+                </option>
+
+                <option value="reunion">
+                  Reunión
+                </option>
+
+                <option value="otro">
+                  Otra actividad
+                </option>
+
+              </select>
+
+            </label>
+
+
+            <label>
+
+              <span>
+                Estado
+              </span>
+
+              <select
+                name="status"
+                defaultValue={
+                  entrada.estado
+                }
+              >
+
+                <option value="borrador">
+                  Borrador
+                </option>
+
+                <option value="pendiente">
+                  Pendiente
+                </option>
+
+                <option value="confirmado">
+                  Confirmado
+                </option>
+
+                <option value="completado">
+                  Completado
+                </option>
+
+              </select>
+
+            </label>
+
+          </div>
+
+
+          <label className="agenda-quick-wide">
+
+            <span>
+              Espacio / sede
+            </span>
+
+            <select
+              name="space_id"
+              defaultValue={
+                entrada.espacioId ??
+                ""
+              }
+            >
+
+              <option value="">
+                Toda la dependencia / sin definir
+              </option>
+
+              {
+                espacios.map(
+                  (espacio) => (
+                    <option
+                      value={
+                        espacio.id
+                      }
+                      key={
+                        espacio.id
+                      }
+                    >
+                      {
+                        espacio.nombre
+                      }
+                    </option>
+                  ),
+                )
+              }
+
+            </select>
+
+          </label>
+
+
+          <label className="agenda-quick-wide">
+
+            <span>
+              Detalle
+            </span>
+
+            <textarea
+              name="details"
+              rows={4}
+              defaultValue={
+                entrada.detalle
+              }
+            />
+
+          </label>
+
+
+          {
+            estado.mensaje &&
+            !estado.ok
+              ? (
+                <div className="agenda-quick-error">
+                  <TriangleAlert
+                    size={14}
+                  />
+
+                  {
+                    estado.mensaje
+                  }
+                </div>
+              )
+              : null
+          }
+
+
+          <div className="agenda-quick-actions">
+
+            <button
+              type="button"
+              className="button secondary"
+              onClick={
+                () =>
+                  setEditando(
+                    false,
+                  )
+              }
+              disabled={
+                guardando
+              }
+            >
+              <X size={15} />
+
+              Cancelar
+            </button>
+
+
+            <button
+              type="submit"
+              className="button primary"
+              disabled={
+                guardando
+              }
+            >
+              <Check size={16} />
+
+              {
+                guardando
+                  ? "Guardando..."
+                  : "Guardar"
+              }
+            </button>
+
+          </div>
+
+        </form>
+
+      </article>
+    );
+  }
+
+
+  return (
+    <article
+      className={`area-agenda-card agenda-cat-${entrada.categoria}`}
+    >
+
+      <div className="area-agenda-card-top">
+
+        <div className="area-agenda-date">
+
+          <strong>
+            {
+              diaVisual(
+                entrada,
+              )
+            }
+          </strong>
+
+          <span>
+            {
+              mesActivo ===
+                "sin-fecha"
+                ? "A DEFINIR"
+                : nombreMes(
+                    mesActivo,
+                  ).split(
+                    " ",
+                  )[0]
+            }
+          </span>
+
+        </div>
+
+
+        <div className="area-agenda-badges">
+
+          <span className="agenda-type-chip">
+            {
+              categoriaLabel[
+                entrada.categoria
+              ] ??
+              "Actividad"
+            }
+          </span>
+
+
+          {
+            completa
+              ? (
+                <span className="agenda-ready-chip">
+
+                  <CheckCircle2 size={12} />
+
+                  Lista
+                </span>
+              )
+              : (
+                <span className="agenda-warning-chip">
+
+                  <TriangleAlert size={12} />
+
+                  Faltan datos
+                </span>
+              )
+          }
+
+        </div>
+
+      </div>
+
+
+      <div className="area-agenda-card-body">
+
+        <span className="agenda-entry-status">
+          {
+            estadoLabel[
+              entrada.estado
+            ] ??
+            entrada.estado
+          }
+        </span>
+
+
+        <h3>
+          {entrada.titulo}
+        </h3>
+
+
+        {
+          entrada.detalle
+            ? (
+              <p>
+                {entrada.detalle}
+              </p>
+            )
+            : null
+        }
+
+      </div>
+
+
+      <div className="area-agenda-meta">
+
+        <span>
+          <Clock3 size={15} />
+
+          {
+            horaVisual(
+              entrada,
+            )
+          }
+        </span>
+
+
+        {
+          entrada.espacio
+            ? (
+              <span>
+
+                <MapPin size={15} />
+
+                {
+                  entrada.espacio
+                }
+
+              </span>
+            )
+            : null
+        }
+
+      </div>
+
+
+      {
+        !completa
+          ? (
+            <div className="area-agenda-missing">
+
+              Falta completar:{" "}
+
+              {
+                faltantes.join(
+                  ", ",
+                )
+              }
+
+            </div>
+          )
+          : null
+      }
+
+
+      <div className="area-agenda-card-actions">
+
+        <button
+          type="button"
+          className="area-agenda-quick-edit"
+          onClick={
+            () =>
+              setEditando(
+                true,
+              )
+          }
+        >
+          <Pencil size={14} />
+
+          Editar
+        </button>
+
+
+        <Link
+          className="area-agenda-edit"
+          href={`/eventos/${entrada.id}/editar`}
+        >
+          Edición completa
+        </Link>
+
+      </div>
+
+    </article>
+  );
+}
+
+
 export function AreaAgendaMonths({
   areaName,
   entradas,
   hrefCarga,
+  espacios,
 }: Props) {
 
   const mesActual =
@@ -434,13 +1032,15 @@ export function AreaAgendaMonths({
           ) => {
 
             if (
-              a === "sin-fecha"
+              a ===
+              "sin-fecha"
             ) {
               return 1;
             }
 
             if (
-              b === "sin-fecha"
+              b ===
+              "sin-fecha"
             ) {
               return -1;
             }
@@ -462,7 +1062,7 @@ export function AreaAgendaMonths({
     );
 
 
-  function mesInicial() {
+  function obtenerMesInicial() {
 
     if (
       claves.includes(
@@ -483,14 +1083,12 @@ export function AreaAgendaMonths({
       );
 
 
-    if (
-      proximo
-    ) {
+    if (proximo) {
       return proximo;
     }
 
 
-    const ultimoConFecha =
+    const ultimo =
       [...claves]
         .reverse()
         .find(
@@ -501,7 +1099,7 @@ export function AreaAgendaMonths({
 
 
     return (
-      ultimoConFecha ??
+      ultimo ??
       claves[0] ??
       "sin-fecha"
     );
@@ -509,12 +1107,26 @@ export function AreaAgendaMonths({
 
 
   const [
-    mesActivo,
-    setMesActivo,
+    mesSeleccionado,
+    setMesSeleccionado,
   ] =
     useState(
-      mesInicial,
+      obtenerMesInicial,
     );
+
+
+  /*
+   * Si al editar una fecha la actividad
+   * cambia de mes y el mes anterior queda vacío,
+   * no dejamos la pantalla en blanco.
+   */
+
+  const mesActivo =
+    claves.includes(
+      mesSeleccionado,
+    )
+      ? mesSeleccionado
+      : obtenerMesInicial();
 
 
   const grupoActivo =
@@ -546,7 +1158,7 @@ export function AreaAgendaMonths({
           </h2>
 
           <p>
-            Actividades organizadas por mes. Seleccioná un mes para ver su programación.
+            Actividades organizadas por mes. Podés editar fecha, hora y datos directamente desde cada card.
           </p>
 
         </div>
@@ -572,7 +1184,6 @@ export function AreaAgendaMonths({
               <div
                 className="area-agenda-month-tabs"
                 role="tablist"
-                aria-label="Meses de la agenda"
               >
 
                 {
@@ -587,7 +1198,6 @@ export function AreaAgendaMonths({
                       const activo =
                         clave ===
                         mesActivo;
-
 
                       const actual =
                         clave ===
@@ -618,15 +1228,11 @@ export function AreaAgendaMonths({
                               ? "undated"
                               : "",
                           ]
-                            .filter(
-                              Boolean,
-                            )
-                            .join(
-                              " ",
-                            )}
+                            .filter(Boolean)
+                            .join(" ")}
                           onClick={
                             () =>
-                              setMesActivo(
+                              setMesSeleccionado(
                                 clave,
                               )
                           }
@@ -669,12 +1275,8 @@ export function AreaAgendaMonths({
                     ? "is-undated"
                     : "",
                 ]
-                  .filter(
-                    Boolean,
-                  )
-                  .join(
-                    " ",
-                  )}
+                  .filter(Boolean)
+                  .join(" ")}
               >
 
                 <div className="area-agenda-month-title">
@@ -722,194 +1324,22 @@ export function AreaAgendaMonths({
 
                   {
                     items.map(
-                      (entrada) => {
-
-                        const faltantes =
-                          faltantesReales(
-                            entrada,
-                          );
-
-
-                        const completa =
-                          faltantes.length ===
-                          0;
-
-
-                        return (
-                          <article
-                            className={`area-agenda-card agenda-cat-${entrada.categoria}`}
-                            key={
-                              entrada.id
-                            }
-                          >
-
-                            <div className="area-agenda-card-top">
-
-                              <div className="area-agenda-date">
-
-                                <strong>
-                                  {
-                                    diaVisual(
-                                      entrada,
-                                    )
-                                  }
-                                </strong>
-
-                                <span>
-                                  {
-                                    mesActivo ===
-                                      "sin-fecha"
-                                      ? "A DEFINIR"
-                                      : nombreMes(
-                                          mesActivo,
-                                        ).split(
-                                          " ",
-                                        )[0]
-                                  }
-                                </span>
-
-                              </div>
-
-
-                              <div className="area-agenda-badges">
-
-                                <span className="agenda-type-chip">
-                                  {
-                                    categoriaLabel[
-                                      entrada.categoria
-                                    ] ??
-                                    "Actividad"
-                                  }
-                                </span>
-
-
-                                {
-                                  completa
-                                    ? (
-                                      <span className="agenda-ready-chip">
-
-                                        <CheckCircle2
-                                          size={12}
-                                        />
-
-                                        Lista
-                                      </span>
-                                    )
-                                    : (
-                                      <span className="agenda-warning-chip">
-
-                                        <TriangleAlert
-                                          size={12}
-                                        />
-
-                                        Faltan datos
-                                      </span>
-                                    )
-                                }
-
-                              </div>
-
-                            </div>
-
-
-                            <div className="area-agenda-card-body">
-
-                              <span className="agenda-entry-status">
-                                {
-                                  estadoLabel[
-                                    entrada.estado
-                                  ] ??
-                                  entrada.estado
-                                }
-                              </span>
-
-
-                              <h3>
-                                {
-                                  entrada.titulo
-                                }
-                              </h3>
-
-
-                              {
-                                entrada.detalle
-                                  ? (
-                                    <p>
-                                      {
-                                        entrada.detalle
-                                      }
-                                    </p>
-                                  )
-                                  : null
-                              }
-
-                            </div>
-
-
-                            <div className="area-agenda-meta">
-
-                              <span>
-                                <Clock3
-                                  size={15}
-                                />
-
-                                {
-                                  horaVisual(
-                                    entrada,
-                                  )
-                                }
-                              </span>
-
-
-                              {
-                                entrada.espacio
-                                  ? (
-                                    <span>
-
-                                      <MapPin
-                                        size={15}
-                                      />
-
-                                      {
-                                        entrada.espacio
-                                      }
-                                    </span>
-                                  )
-                                  : null
-                              }
-
-                            </div>
-
-
-                            {
-                              !completa
-                                ? (
-                                  <div className="area-agenda-missing">
-
-                                    Falta completar:{" "}
-
-                                    {
-                                      faltantes.join(
-                                        ", ",
-                                      )
-                                    }
-
-                                  </div>
-                                )
-                                : null
-                            }
-
-
-                            <Link
-                              className="area-agenda-edit"
-                              href={`/eventos/${entrada.id}/editar`}
-                            >
-                              Ver / editar
-                            </Link>
-
-                          </article>
-                        );
-                      },
+                      (entrada) => (
+                        <AgendaCard
+                          key={
+                            entrada.id
+                          }
+                          entrada={
+                            entrada
+                          }
+                          mesActivo={
+                            mesActivo
+                          }
+                          espacios={
+                            espacios
+                          }
+                        />
+                      ),
                     )
                   }
 
@@ -922,9 +1352,7 @@ export function AreaAgendaMonths({
           : (
             <div className="area-agenda-empty">
 
-              <CalendarDays
-                size={28}
-              />
+              <CalendarDays size={28} />
 
               <div>
 
@@ -933,7 +1361,7 @@ export function AreaAgendaMonths({
                 </strong>
 
                 <span>
-                  Usá “Cargar actividad” para incorporar la agenda de esta dependencia.
+                  Usá “Cargar actividad” para incorporar la agenda.
                 </span>
 
               </div>

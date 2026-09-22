@@ -4698,3 +4698,299 @@ small{
   }
 
 }
+
+/* =========================================================
+   AGENDA EDICION RAPIDA 2026
+   ========================================================= */
+
+.area-agenda-card-actions{
+  margin-top:11px;
+
+  padding-top:9px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:8px;
+
+  border-top:
+    1px solid #dce6e3;
+}
+
+
+.area-agenda-quick-edit{
+  display:inline-flex;
+
+  align-items:center;
+
+  gap:5px;
+
+  padding:0;
+
+  border:0;
+
+  background:transparent;
+
+  color:#08777a;
+
+  font:inherit;
+
+  font-size:9px;
+
+  font-weight:900;
+
+  cursor:pointer;
+}
+
+
+.area-agenda-quick-edit:hover{
+  text-decoration:underline;
+}
+
+
+.area-agenda-card-actions
+.area-agenda-edit{
+  margin-top:0;
+
+  color:#657a7b;
+
+  font-size:8px;
+}
+
+
+/* CARD EN MODO EDICIÓN */
+
+.agenda-quick-edit-card{
+  padding:14px;
+
+  background:#ffffff;
+
+  border:
+    1px solid #78aaa6;
+
+  box-shadow:
+    0 8px 24px
+    rgba(21,43,46,.10);
+}
+
+
+.agenda-quick-edit-card::before{
+  background:#08777a;
+}
+
+
+.agenda-quick-form{
+  display:grid;
+
+  gap:10px;
+
+  width:100%;
+}
+
+
+.agenda-quick-title{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:10px;
+
+  padding-top:3px;
+
+  padding-bottom:7px;
+
+  border-bottom:
+    1px solid #dfe8e6;
+}
+
+
+.agenda-quick-title strong{
+  font-size:12px;
+
+  color:#173638;
+}
+
+
+.agenda-quick-close{
+  width:28px;
+
+  height:28px;
+
+  display:grid;
+
+  place-items:center;
+
+  border:0;
+
+  border-radius:7px;
+
+  background:#eef4f2;
+
+  color:#466364;
+
+  cursor:pointer;
+}
+
+
+.agenda-quick-form label{
+  display:grid;
+
+  gap:5px;
+}
+
+
+.agenda-quick-form label>span{
+  font-size:8px;
+
+  font-weight:900;
+
+  text-transform:uppercase;
+
+  letter-spacing:.04em;
+
+  color:#4f6869;
+}
+
+
+.agenda-quick-form input,
+.agenda-quick-form select,
+.agenda-quick-form textarea{
+  width:100%;
+
+  min-width:0;
+
+  border:
+    1px solid #bfd0cd;
+
+  border-radius:7px;
+
+  background:#ffffff;
+
+  color:#173638;
+
+  font:inherit;
+
+  font-size:10px;
+
+  outline:none;
+}
+
+
+.agenda-quick-form input,
+.agenda-quick-form select{
+  height:38px;
+
+  padding:
+    0 9px;
+}
+
+
+.agenda-quick-form textarea{
+  padding:9px;
+
+  resize:vertical;
+
+  line-height:1.4;
+}
+
+
+.agenda-quick-form input:focus,
+.agenda-quick-form select:focus,
+.agenda-quick-form textarea:focus{
+  border-color:#08777a;
+
+  box-shadow:
+    0 0 0 2px
+    rgba(8,119,122,.09);
+}
+
+
+.agenda-quick-two{
+  display:grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0,1fr)
+    );
+
+  gap:8px;
+}
+
+
+.agenda-quick-wide{
+  width:100%;
+}
+
+
+.agenda-quick-actions{
+  margin-top:3px;
+
+  display:flex;
+
+  justify-content:flex-end;
+
+  gap:7px;
+}
+
+
+.agenda-quick-actions
+.button{
+  min-height:36px;
+
+  padding:
+    0 11px;
+
+  font-size:9px;
+}
+
+
+.agenda-quick-error{
+  display:flex;
+
+  align-items:center;
+
+  gap:6px;
+
+  padding:7px 8px;
+
+  border-radius:6px;
+
+  background:#fff0ed;
+
+  color:#a53a2c;
+
+  font-size:8px;
+
+  font-weight:750;
+}
+
+
+/* MOBILE */
+
+@media(max-width:650px){
+
+  .agenda-quick-two{
+    grid-template-columns:1fr;
+  }
+
+
+  .agenda-quick-actions{
+    display:grid;
+
+    grid-template-columns:
+      1fr 1fr;
+  }
+
+
+  .agenda-quick-actions
+  .button{
+    justify-content:center;
+  }
+
+}

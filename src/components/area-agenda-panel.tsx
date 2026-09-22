@@ -92,9 +92,8 @@ export async function AreaAgendaPanel({
 
 
   if (error) {
-
     console.error(
-      "Error cargando agenda de dependencia:",
+      "Error cargando agenda:",
       error.message,
     );
   }
@@ -175,6 +174,9 @@ export async function AreaAgendaPanel({
 
             categoria,
 
+            espacioId:
+              entrada.space_id,
+
             espacio:
               entrada.space_id
                 ? (
@@ -224,6 +226,17 @@ export async function AreaAgendaPanel({
       areaName={areaName}
       entradas={entradas}
       hrefCarga={hrefCarga}
+      espacios={
+        espacios.map(
+          (espacio) => ({
+            id:
+              espacio.id,
+
+            nombre:
+              espacio.nombre,
+          }),
+        )
+      }
     />
   );
 }
