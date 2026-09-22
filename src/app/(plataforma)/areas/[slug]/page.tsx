@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, CalendarDays, FileText, FolderKanban, Users } from "lucide-react";
+import { ArrowLeft, FileText } from "lucide-react";
 import { AreaEditPanel } from "@/components/area-edit-panel";
 import { AreaStaffPanel } from "@/components/area-staff-panel";
 import { AreaExecutivePanel } from "@/components/area-executive-panel";
 import { AreaOperationalOverview } from "@/components/area-operational-overview";
+import { AreaAgendaPanel } from "@/components/area-agenda-panel";
 import { DirectVenuePanel } from "@/components/direct-venue-panel";
 import { SpaceManager } from "@/components/space-manager";
 import { obtenerAreas } from "@/lib/areas-data";
@@ -47,6 +48,12 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
         </div>
         <span className="status structure-status">{area.espacios.length} {area.espacios.length === 1 ? "espacio" : "espacios"}</span>
       </section>
+
+      <AreaAgendaPanel
+        areaId={area.id}
+        areaName={area.nombre}
+        espacios={area.espacios}
+      />
 
       <div
         className={`detail-grid ${
@@ -136,15 +143,6 @@ export default async function AreaPage({ params }: { params: Promise<{ slug: str
               descripcion={area.descripcion}
             />
           ) : null}
-          <div className="panel">
-            <h2>Información conectada</h2>
-            <div className="quick-list">
-              <div><span><Users size={20} /></span><strong>Equipo y responsables</strong></div>
-              <div><span><CalendarDays size={20} /></span><strong>Agenda</strong></div>
-              <div><span><FolderKanban size={20} /></span><strong>Proyectos y necesidades</strong></div>
-              <div><span><FileText size={20} /></span><strong>Documentos</strong></div>
-            </div>
-          </div>
           <div className="data-note">
             <FileText size={20} />
             <span>Los cambios de nombre se reflejan automáticamente en Registrar, Agenda, Solicitudes y Bitácora.</span>

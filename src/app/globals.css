@@ -3628,3 +3628,739 @@ small{
   }
 
 }
+
+/* =========================================================
+   AGENDA VISUAL POR DEPENDENCIA 2026
+   ========================================================= */
+
+.area-agenda-section{
+  background:#fff;
+
+  border:
+    1px solid #becfcb;
+
+  border-radius:14px;
+
+  padding:22px;
+
+  box-shadow:
+    0 4px 14px
+    rgba(21,43,46,.06);
+}
+
+
+.area-agenda-heading{
+  display:flex;
+
+  align-items:flex-end;
+
+  justify-content:
+    space-between;
+
+  gap:18px;
+
+  margin-bottom:18px;
+}
+
+
+.area-agenda-heading h2{
+  margin:4px 0 5px;
+
+  font-size:23px;
+
+  letter-spacing:-.03em;
+}
+
+
+.area-agenda-heading p{
+  margin:0;
+
+  color:var(--muted);
+
+  font-size:11px;
+}
+
+
+.area-agenda-add{
+  flex:0 0 auto;
+}
+
+
+/* GRID VISUAL */
+
+.area-agenda-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      minmax(0,1fr)
+    );
+
+  gap:12px;
+}
+
+
+.area-agenda-card{
+  position:relative;
+
+  min-height:255px;
+
+  padding:15px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  overflow:hidden;
+
+  border:
+    1px solid #d0dcda;
+
+  border-radius:11px;
+
+  background:
+    linear-gradient(
+      150deg,
+      #f7faf9 0%,
+      #edf4f2 100%
+    );
+}
+
+
+.area-agenda-card::before{
+  content:"";
+
+  position:absolute;
+
+  top:0;
+  left:0;
+
+  width:100%;
+
+  height:5px;
+
+  background:#08777a;
+}
+
+
+.agenda-cat-taller::before{
+  background:#7656a8;
+}
+
+
+.agenda-cat-propuesta_educativa::before{
+  background:#3974a8;
+}
+
+
+.agenda-cat-reunion::before{
+  background:#8a5a44;
+}
+
+
+.area-agenda-card-top{
+  display:flex;
+
+  justify-content:
+    space-between;
+
+  align-items:flex-start;
+
+  gap:10px;
+}
+
+
+.area-agenda-date{
+  display:grid;
+
+  line-height:1;
+}
+
+
+.area-agenda-date strong{
+  font-size:34px;
+
+  letter-spacing:-.06em;
+
+  color:#173638;
+}
+
+
+.area-agenda-date span{
+  margin-top:4px;
+
+  font-size:10px;
+
+  font-weight:900;
+
+  letter-spacing:.08em;
+
+  color:#08777a;
+}
+
+
+.area-agenda-badges{
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:flex-end;
+
+  gap:5px;
+}
+
+
+.agenda-type-chip,
+.agenda-ready-chip,
+.agenda-warning-chip{
+  display:flex;
+
+  align-items:center;
+
+  gap:4px;
+
+  padding:5px 7px;
+
+  border-radius:20px;
+
+  font-size:8px;
+
+  font-weight:850;
+}
+
+
+.agenda-type-chip{
+  background:#e2efed;
+
+  color:#1c6667;
+}
+
+
+.agenda-ready-chip{
+  background:#e1f2e8;
+
+  color:#246a47;
+}
+
+
+.agenda-warning-chip{
+  background:#fff0d9;
+
+  color:#8c5b00;
+}
+
+
+.area-agenda-card-body{
+  margin-top:24px;
+}
+
+
+.agenda-entry-status{
+  font-size:8px;
+
+  text-transform:uppercase;
+
+  font-weight:850;
+
+  letter-spacing:.07em;
+
+  color:#718283;
+}
+
+
+.area-agenda-card h3{
+  margin:5px 0 7px;
+
+  font-size:18px;
+
+  line-height:1.08;
+
+  letter-spacing:-.03em;
+}
+
+
+.area-agenda-card-body p{
+  margin:0;
+
+  color:#53686b;
+
+  font-size:9px;
+
+  line-height:1.45;
+
+  display:-webkit-box;
+
+  -webkit-line-clamp:3;
+
+  -webkit-box-orient:vertical;
+
+  overflow:hidden;
+}
+
+
+.area-agenda-meta{
+  display:grid;
+
+  gap:6px;
+
+  margin-top:auto;
+
+  padding-top:16px;
+}
+
+
+.area-agenda-meta span{
+  display:flex;
+
+  align-items:center;
+
+  gap:6px;
+
+  font-size:9px;
+
+  font-weight:700;
+
+  color:#365759;
+}
+
+
+.area-agenda-meta svg{
+  color:#08777a;
+}
+
+
+.area-agenda-missing{
+  margin-top:10px;
+
+  padding:7px 8px;
+
+  border-radius:6px;
+
+  background:#fff1dd;
+
+  color:#845500;
+
+  font-size:8px;
+
+  font-weight:750;
+}
+
+
+.area-agenda-edit{
+  margin-top:11px;
+
+  color:#08777a;
+
+  font-size:9px;
+
+  font-weight:850;
+
+  text-decoration:none;
+}
+
+
+.area-agenda-empty{
+  min-height:140px;
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  gap:12px;
+
+  border:
+    1px dashed #b9cbc7;
+
+  border-radius:10px;
+
+  background:#f5f8f7;
+
+  color:#607779;
+}
+
+
+.area-agenda-empty div{
+  display:grid;
+
+  gap:3px;
+}
+
+
+.area-agenda-empty strong{
+  color:#233f41;
+
+  font-size:12px;
+}
+
+
+.area-agenda-empty span{
+  font-size:10px;
+}
+
+
+.area-agenda-footer{
+  display:flex;
+
+  justify-content:flex-end;
+
+  margin-top:12px;
+}
+
+
+.area-agenda-footer a{
+  color:#08777a;
+
+  font-size:10px;
+
+  font-weight:850;
+}
+
+
+/* =========================================================
+   AGENDA GENERAL + FILTROS
+   ========================================================= */
+
+.agenda-modern{
+  display:grid;
+
+  gap:14px;
+}
+
+
+.agenda-filter-panel{
+  padding:14px;
+
+  display:grid;
+
+  gap:10px;
+
+  border:
+    1px solid #c6d5d2;
+
+  border-radius:11px;
+
+  background:#fff;
+}
+
+
+.agenda-search{
+  display:grid;
+
+  grid-template-columns:
+    22px minmax(0,1fr);
+
+  gap:5px;
+
+  align-items:center;
+
+  padding:
+    0 10px;
+
+  border:
+    1px solid #c6d5d2;
+
+  border-radius:8px;
+
+  background:#f8faf9;
+}
+
+
+.agenda-search svg{
+  color:#08777a;
+}
+
+
+.agenda-search input{
+  height:42px;
+
+  border:0!important;
+
+  outline:0;
+
+  background:transparent!important;
+
+  box-shadow:none!important;
+}
+
+
+.agenda-filters{
+  display:grid;
+
+  grid-template-columns:
+    auto
+    repeat(
+      5,
+      minmax(120px,1fr)
+    );
+
+  gap:7px;
+
+  align-items:center;
+}
+
+
+.agenda-filters>span{
+  display:flex;
+
+  align-items:center;
+
+  gap:5px;
+
+  color:#50696a;
+
+  font-size:9px;
+
+  font-weight:850;
+
+  text-transform:uppercase;
+}
+
+
+.agenda-filters select{
+  height:38px;
+
+  border:
+    1px solid #c8d6d3;
+
+  border-radius:7px;
+
+  background:#fff;
+
+  color:#183536;
+
+  padding:
+    0 8px;
+
+  font-size:9px;
+}
+
+
+.agenda-global-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      minmax(0,1fr)
+    );
+
+  gap:11px;
+}
+
+
+.agenda-global-card{
+  padding:14px;
+
+  min-height:190px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  border:
+    1px solid #cad7d4;
+
+  border-radius:10px;
+
+  background:#fff;
+}
+
+
+.agenda-global-card-head{
+  display:flex;
+
+  justify-content:
+    space-between;
+
+  gap:8px;
+}
+
+
+.agenda-global-type,
+.agenda-global-ok,
+.agenda-global-warning{
+  display:flex;
+
+  align-items:center;
+
+  gap:4px;
+
+  font-size:8px;
+
+  font-weight:850;
+
+  border-radius:15px;
+
+  padding:4px 6px;
+}
+
+
+.agenda-global-type{
+  background:#e8f1ef;
+
+  color:#286566;
+}
+
+
+.agenda-global-ok{
+  background:#e6f4eb;
+
+  color:#246a47;
+}
+
+
+.agenda-global-warning{
+  background:#fff0da;
+
+  color:#875800;
+}
+
+
+.agenda-global-card time{
+  display:flex;
+
+  align-items:center;
+
+  gap:5px;
+
+  margin-top:19px;
+
+  color:#536a6c;
+
+  font-size:9px;
+
+  font-weight:700;
+}
+
+
+.agenda-global-card h3{
+  margin:7px 0 5px;
+
+  font-size:15px;
+
+  line-height:1.15;
+}
+
+
+.agenda-global-card h3 a{
+  color:#173638;
+
+  text-decoration:none;
+}
+
+
+.agenda-global-card p{
+  margin:0;
+
+  color:#607577;
+
+  font-size:9px;
+}
+
+
+.agenda-global-card footer{
+  margin-top:auto;
+
+  padding-top:14px;
+
+  display:flex;
+
+  justify-content:
+    space-between;
+
+  gap:7px;
+
+  border-top:
+    1px solid #e1e8e6;
+
+  font-size:8px;
+}
+
+
+.agenda-global-card footer span{
+  font-weight:800;
+}
+
+
+.agenda-global-card footer small{
+  color:#946208;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media(max-width:1100px){
+
+  .area-agenda-grid,
+  .agenda-global-grid{
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0,1fr)
+      );
+  }
+
+
+  .agenda-filters{
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0,1fr)
+      );
+  }
+
+
+  .agenda-filters>span{
+    grid-column:1/-1;
+  }
+
+}
+
+
+@media(max-width:650px){
+
+  .area-agenda-section{
+    padding:14px;
+  }
+
+
+  .area-agenda-heading{
+    align-items:stretch;
+
+    flex-direction:column;
+  }
+
+
+  .area-agenda-add{
+    width:100%;
+
+    justify-content:center;
+  }
+
+
+  .area-agenda-grid,
+  .agenda-global-grid{
+    grid-template-columns:1fr;
+  }
+
+
+  .area-agenda-card{
+    min-height:225px;
+  }
+
+
+  .agenda-filters{
+    grid-template-columns:1fr;
+  }
+
+
+  .agenda-filters>span{
+    grid-column:auto;
+  }
+
+}
