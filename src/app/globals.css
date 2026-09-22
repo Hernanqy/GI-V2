@@ -4364,3 +4364,337 @@ small{
   }
 
 }
+
+/* =========================================================
+   AGENDA MESES DEPENDENCIAS 2026
+   ========================================================= */
+
+.area-agenda-monthly{
+  overflow:hidden;
+}
+
+
+/* PESTAÑAS DE MESES */
+
+.area-agenda-month-tabs{
+  display:flex;
+
+  gap:7px;
+
+  width:100%;
+
+  overflow-x:auto;
+
+  padding:
+    3px 2px 12px;
+
+  scrollbar-width:thin;
+}
+
+
+.area-agenda-month-tab{
+  flex:0 0 auto;
+
+  min-width:85px;
+
+  min-height:50px;
+
+  padding:
+    8px 11px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:
+    space-between;
+
+  gap:10px;
+
+  border:
+    1px solid #cad8d5;
+
+  border-radius:9px;
+
+  background:#f6f9f8;
+
+  color:#365657;
+
+  cursor:pointer;
+
+  transition:
+    background .15s ease,
+    color .15s ease,
+    border-color .15s ease,
+    transform .15s ease;
+}
+
+
+.area-agenda-month-tab:hover{
+  border-color:#83aaa6;
+
+  transform:
+    translateY(-1px);
+}
+
+
+.area-agenda-month-tab span{
+  font-size:9px;
+
+  font-weight:850;
+
+  letter-spacing:.03em;
+
+  white-space:nowrap;
+}
+
+
+.area-agenda-month-tab strong{
+  min-width:21px;
+
+  height:21px;
+
+  padding:
+    0 5px;
+
+  display:grid;
+
+  place-items:center;
+
+  border-radius:20px;
+
+  background:#e3ecea;
+
+  font-size:8px;
+}
+
+
+/* MES SELECCIONADO */
+
+.area-agenda-month-tab.active{
+  background:#08777a;
+
+  border-color:#08777a;
+
+  color:#ffffff;
+
+  box-shadow:
+    0 5px 14px
+    rgba(8,119,122,.20);
+}
+
+
+.area-agenda-month-tab.active strong{
+  background:
+    rgba(255,255,255,.18);
+
+  color:#ffffff;
+}
+
+
+/* MES CALENDARIO ACTUAL AUN CUANDO NO ESTÉ SELECCIONADO */
+
+.area-agenda-month-tab.current:not(.active){
+  background:#e2f2ef;
+
+  border-color:#73aaa5;
+
+  color:#07686b;
+
+  box-shadow:
+    inset 0 -3px 0
+    #08777a;
+}
+
+
+/* SIN FECHA */
+
+.area-agenda-month-tab.undated{
+  border-style:dashed;
+}
+
+
+.area-agenda-month-tab.undated.active{
+  background:#9a6a16;
+
+  border-color:#9a6a16;
+
+  color:#ffffff;
+}
+
+
+/* CONTENEDOR DEL MES */
+
+.area-agenda-active-month{
+  margin-top:4px;
+
+  padding:16px;
+
+  border:
+    1px solid #cedbd8;
+
+  border-radius:12px;
+
+  background:#f8faf9;
+}
+
+
+/* MES ACTUAL DESTACADO */
+
+.area-agenda-active-month.is-current{
+  border-color:#77aaa5;
+
+  background:
+    linear-gradient(
+      145deg,
+      #edf8f6 0%,
+      #f9fbfa 70%
+    );
+
+  box-shadow:
+    inset 4px 0 0
+    #08777a;
+}
+
+
+/* SIN FECHA */
+
+.area-agenda-active-month.is-undated{
+  background:#fffaf1;
+
+  border-color:#dcc598;
+
+  box-shadow:
+    inset 4px 0 0
+    #a97518;
+}
+
+
+/* CABECERA DEL MES */
+
+.area-agenda-month-title{
+  display:flex;
+
+  justify-content:
+    space-between;
+
+  align-items:flex-end;
+
+  gap:16px;
+
+  margin-bottom:15px;
+
+  padding-bottom:12px;
+
+  border-bottom:
+    1px solid #d9e4e1;
+}
+
+
+.area-agenda-month-title>div{
+  display:grid;
+
+  gap:3px;
+}
+
+
+.area-agenda-month-title span{
+  font-size:8px;
+
+  font-weight:900;
+
+  letter-spacing:.12em;
+
+  color:#08777a;
+}
+
+
+.area-agenda-month-title h3{
+  margin:0;
+
+  font-size:20px;
+
+  letter-spacing:-.025em;
+
+  color:#183536;
+}
+
+
+.area-agenda-month-title>strong{
+  padding:
+    5px 8px;
+
+  border-radius:20px;
+
+  background:#e5eeec;
+
+  color:#365657;
+
+  font-size:8px;
+}
+
+
+/* MES ACTUAL: TÍTULO MÁS FUERTE */
+
+.area-agenda-active-month.is-current
+.area-agenda-month-title{
+  border-bottom-color:#b7d4d0;
+}
+
+
+.area-agenda-active-month.is-current
+.area-agenda-month-title>strong{
+  background:#08777a;
+
+  color:#ffffff;
+}
+
+
+.area-agenda-active-month.is-undated
+.area-agenda-month-title span{
+  color:#906015;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media(max-width:650px){
+
+  .area-agenda-month-tabs{
+    margin-right:-14px;
+
+    padding-right:14px;
+  }
+
+
+  .area-agenda-month-tab{
+    min-width:78px;
+
+    min-height:46px;
+
+    padding:
+      7px 9px;
+  }
+
+
+  .area-agenda-active-month{
+    padding:11px;
+  }
+
+
+  .area-agenda-month-title{
+    align-items:flex-start;
+
+    flex-direction:column;
+
+    gap:7px;
+  }
+
+
+  .area-agenda-month-title h3{
+    font-size:18px;
+  }
+
+}
